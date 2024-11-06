@@ -1,0 +1,60 @@
+﻿@model DataAccesslayer.Models.View_Models.Nurse.VMPatientTreatment
+
+@{
+    ViewBag.Title= "Treatment Details";
+}
+
+
+    
+
+<h1 class="display-5 text-center bold">Treatment Details</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Patient Treatment Identity</label>
+            <div class="col-sm-8">
+                <input value="@Model.PatientTreatmentID "form-control-plaintext" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Patient Name</label>
+            <div class="col-sm-8">
+                <input value="@Model.PatientName "form-control" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Treatment</label>
+            <div class="col-sm-8">
+                <input value="@Model.Description" class="form-control" readonly />
+            </div>
+        </div>
+       
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Treatment Date</label>
+            <div class="col-sm-8">
+                <input value=" @Model.Date.ToString("dd MMMM yyyy hh:mm tt")" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="col-sm-4 d-grid">
+            <a asp-action="TreatmentList" class="btn btn-outline-primary ">Back to List</a>
+        </div>
+
+
+    </div>
+</div>
+
+
+<
+
+
+
+
+
+
+
+
+
+

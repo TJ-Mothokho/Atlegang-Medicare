@@ -1,0 +1,52 @@
+@model DataAccesslayer.Models.Domains.Nurse_and_Nursing_Sister.Medication;
+
+@{
+    ViewData["title"] = "Add medications";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["Success"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorAlert"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorAlert"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container">
+    <div class="heading">
+        <h1 class="display-2 text-center-bold">Add Medication</h1>
+        <hr>
+    </div>
+
+    <form asp-action="AddMedication" method="post">
+        <div class="form-group">
+            <label asp-for="Name" class="form-label">Medication Name</label>
+            <input type="text" class="form-control" asp-for="Name">
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ExpiryDate" class="form-label">Expiry Date</label>
+            <input type="date" class="form-control" asp-for="ExpiryDate">
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Schedule" class="form-label">Schedule</label>
+            <input type="number" class="form-control" asp-for="Schedule">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Medication</button>
+        </div>
+    </form>
+
+    <div>
+        <a href="@Url.Action("ViewMedication", "ScriptManager")" class="btn btn-primary"><i class="bi bi-arrow-left"></i> Go Back</a>
+    </div>
+</div>

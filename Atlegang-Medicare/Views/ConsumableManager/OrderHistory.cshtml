@@ -1,0 +1,56 @@
+﻿
+
+@{
+    ViewData["Title"] = "Order History";
+}
+
+<div class="container">
+    <div class="heading">
+        <h1 class="display-2 text-center bold">Order History</h1>
+        <hr />
+    </div>
+
+    <div class="row">
+        <div>
+            <p>Active Orders Only</p>
+        </div>
+        <div class="filter justify-content-end">
+            <button class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <table id="table1" class="table">
+                <thead>
+                    <tr>
+                        <th>Manager</th>
+                        <th>OrderDate</th>
+                        <th>TotalCost</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.OrderHistory)
+                    {
+                        <tr>
+                            <td>@item.Manager</td>
+                            <td>@item.OrderDate</td>
+                            <td>R @item.TotalCost</td>
+                            <td>@item.Status</td>
+                            <td>
+                                <a href="@Url.Action("OrderDetails", "ConsumableManager", new{ orderID = item.OrderID })" class="btn btn-primary">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <a href="@Url.Action("Orders","ConsumableManager")" class="btn btn-primary">Go Back</a>
+    </div>
+</div>

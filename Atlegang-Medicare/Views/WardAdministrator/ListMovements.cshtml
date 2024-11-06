@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DataAccesslayer.Models.View_Models.WardAdministror.VMPatientMovement>
+
+@{
+    ViewData["Title"] = "List of Patient Movement";
+}
+
+<h1 class="display-5 text-center bold">Patient Movement List</h1>
+<hr />
+<div class="d-flex justify-content-end">
+    <a asp-action="AddMovement" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Movement</a>
+</div>
+<br />
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">List of Patients with Movements</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>File ID</th>
+                    <th>Patient Names</th>
+                    <th>Date</th>
+                    <th></th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>@item.FileID</th>
+                        <th>@item.PatientName</th>
+                        <th>@item.Date.ToString("dd MMMM yyyy")</th>
+                        <td>
+                            <a asp-action="UpdateMovement" asp-route-id="@item.MovementID" class="btn btn-warning"> <i class="bi bi-pen"></i> Update</a>
+                        </td>
+                        
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>

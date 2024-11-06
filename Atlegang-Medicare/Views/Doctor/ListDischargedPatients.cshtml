@@ -1,0 +1,50 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewBag.Title = "Discharged Patients";
+}
+
+<h1 class="display-5 text-center bold">Discharged Patients List</h1>
+<hr />
+
+<br />
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Recent Discharged</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Identity Number</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>@item.FirstName</th>
+                        <th>@item.IDNumber</th>
+                        <th>@item.Email</th>
+                        <td>
+                            <a asp-action="ViewDischargedPatient" asp-route-id="@item.UserID" class="btn btn-warning"> <i class="bi bi-card-list"></i> Details</a>
+                        </td>
+                        <td>
+                            <a asp-action="ReferPatientAgain" asp-route-id="@item.UserID" class="btn btn-secondary"> <i class="bi bi-pen"></i> Refer</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<br />
+<br />
+<br />
+<br />
+

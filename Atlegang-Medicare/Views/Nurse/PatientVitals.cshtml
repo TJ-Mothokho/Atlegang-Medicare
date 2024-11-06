@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DataAccesslayer.Models.View_Models.Nurse.PatientVitalsDetailsViewModel>
+
+@{
+    ViewData["Title"] = "Patients Vitals ";
+}
+
+
+<h1 class="display-5 text-center bold">All Recorded Vitals </h1>
+<hr />
+
+
+<div class="justify-content-end">
+    <a asp-action="AddPatientVitals" asp-route-id="@ViewBag.FileID" class="btn btn-primary"> <i class="fa fa-file"></i> Add Vitals</a>
+</div>
+
+<div class="card">
+   
+    
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Vital Name</th>
+                    <th>Vital Value</th>
+                    <th>Date</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                @{
+                    int counter = 1; // Initialize a counter for numbering
+                }
+                @foreach (var vital in Model)
+                {
+                    <tr>
+                        <td>@vital.PatientName</td>
+                        <td>@vital.Description</td>
+                        <td>@vital.VitalValue</td>
+                        <td>@vital.DateRecorded.ToString("dd MMMM yyyy")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@vital.DateRecorded.ToString("hh:mm tt")</td>
+
+                        <td>
+
+                            <a asp-action="PatientVitalsDetails" asp-route-id="@vital.PatientVitalsDetailsID" class="btn btn-warning"> <i class="fa fa-export"></i> Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<br />
+
+   
+<div>
+    <a href="@Url.Action("Index", "Nurse", new { })" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i>Home</a>
+</div>

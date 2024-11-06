@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DataAccesslayer.Models.View_Models.Nurse.VMPatientTreatment>
+@{
+    ViewBag.Title = "Patient Treatmets Details";
+}
+
+<h1 class="display-5 text-center bold">Treatments Details</h1>
+<hr />
+
+
+<div class="card">
+   
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                     <th>Treatment</th>
+                    <th> Date</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                @{
+                    int counter = 1; 
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@counter</td> 
+                         <td>@item.Description</td>
+                        <td>@item.Date.ToString("dd MMMM yyyy")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@item.Date.ToString("hh:mm tt")</td>
+
+                        <td>
+
+                            <a asp-action="PatientTreatmentDetails" asp-route-id="@item.PatientTreatmentID" class="btn btn-info"> <i class="fa fa-file-export"></i> Details</a>
+                        </td>
+                    </tr>
+                    {
+                        counter++; 
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
+  
+
+</div>
+<br />
+
+<div>
+    <a href="@Url.Action("TreatmentList", "Nurse", new{})" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i>Back To List</a>
+</div>
+

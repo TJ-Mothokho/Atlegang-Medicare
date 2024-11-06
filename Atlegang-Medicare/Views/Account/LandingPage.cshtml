@@ -1,0 +1,258 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Atlegang Medicare";
+}
+
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using System.Collections
+
+@{
+    var businessName = HttpContextAccessor.HttpContext.Session.GetString("BusinessName");
+    var slogan = HttpContextAccessor.HttpContext.Session.GetString("Slogan");
+    var mainLogo = HttpContextAccessor.HttpContext.Session.GetString("MainLogo");
+    var footerLogo = HttpContextAccessor.HttpContext.Session.GetString("FooterLogo");
+    var facebook = HttpContextAccessor.HttpContext.Session.GetString("Facebook");
+    var instagram = HttpContextAccessor.HttpContext.Session.GetString("Instagram");
+    var youTube = HttpContextAccessor.HttpContext.Session.GetString("YouTube");
+    var twitter = HttpContextAccessor.HttpContext.Session.GetString("Twitter");
+}
+
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/LogInPage/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+
+
+        .footerBackground {
+            background-color: #005146;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="container">
+            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between border-bottom">
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <!-- Brand Logo -->
+                    <a href="#" class="brand-link text-decoration-none">
+                        <img src="@Url.Content(mainLogo)" alt="Atlegang Logo" width="120" height="120">
+                    </a>
+                </div>
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-2  link-secondary"><h1 class="display-5">@businessName</h1></a></li>
+                </ul>
+                <div class="col-md-3 text-end">
+                </div>
+            </header>
+            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                    </a>
+                </div>
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+                    <li><a href="#featured-3" class="nav-link px-2">Services</a></li>
+                    <li><a href="#FAQ" class="nav-link px-2">FAQs</a></li>
+                    <li><a href="#" class="nav-link px-2">About</a></li>
+                </ul>
+                <div class="col-md-3 text-end">
+                </div>
+            </header>
+        </div>
+    </div>
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img src="https://i.pinimg.com/originals/8f/65/0f/8f650fdc6a912227b5914487afafd734.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="400" height="300" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Welcome to <br />@businessName, </h1>
+                <p class="lead">
+                    a leading orthotics and prosthetics care provider in South Africa, using compassionate care and cutting-edge technology to enhance mobility and improve quality of life.
+
+                </p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <a asp-controller="Account" asp-action="LoginPage" type="submit" class="btn btn-primary btn-lg px-4 me-md-2">Log in</a>
+                    <a class="btn btn-outline-primary btn-lg px-4">Learn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container marketing">
+
+
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading fw-normal lh-1 mb-3">Empowering Mobility <span class="text-body-secondary">Supporting Wheelchair Users</span></h2>
+                <p class="lead">
+                    Our hospital is committed to supporting patients who rely on wheelchairs by offering compassionate care and personalized services. We provide specialized assistance to enhance mobility, comfort, and independence, ensuring that each patient's unique needs are addressed. Our team of healthcare professionals focuses on accessibility, creating a safe environment with wheelchair-friendly facilities and equipment.
+                </p>
+                <p class="lead">
+                    We also offer physical therapy and rehabilitation programs to help patients improve their strength and mobility. Our goal is to empower wheelchair users, helping them lead fulfilling lives with dignity and ease, both within the hospital and beyond.
+                </p>
+            </div>
+            <div class="col-md-5">
+                <img src="https://st4.depositphotos.com/7874342/27548/v/450/depositphotos_275481636-stock-illustration-nurse-carries-a-grandmother-in.jpg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading fw-normal lh-1 mb-3">Prosthetics & Orthotics Care <span class="text-body-secondary">Feel the Difference.</span></h2>                <p class="lead">
+                    At Atlegang Medicare, patients with prosthetics and orthotics receive specialized care to ensure their comfort, mobility, and well-being. Medical professionals, including doctors, nurses, and physical therapists, work together to assess the patient's needs, monitor their condition, and adjust their devices as necessary.
+                </p>
+                <p class="lead">
+                    They focus on providing personalized support to enhance mobility, reduce pain, and prevent complications, ensuring that each patient receives the best possible care for their condition. This collaborative approach helps patients adapt to their devices and improve their quality of life, allowing them to regain independence and participate more fully in everyday activities.
+                </p>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img src="https://hollywoodhealthandsociety.org/wp-content/uploads/2021/02/Person-Centered-Care.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto">
+            </div>
+        </div>
+
+        <hr class="featurette-divider mb-5">
+        <h2 class="pb-2" id="FAQ">Frequently Asked Questions</h2>
+        <div class="accordion mt-5" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        1. What is the main difference between orthotics and prosthetics?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        Orthotics are devices designed to assist or correct the function of existing body parts, often used to alleviate pain or support healing in limbs or the spine. Prosthetics, on the other hand, are artificial replacements for missing body parts, such as limbs, designed to restore functionality to a person who has lost a limb due to injury, illness, or a congenital condition.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        2. What are some common examples of orthotic devices?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        Common examples of orthotic devices include spinal orthoses used for spine and back issues, often related to conditions like scoliosis, and foot orthotics, which are typically insoles designed to improve foot function. Braces for joints like the knee, ankle, or wrist are also considered orthotic devices.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        3. How are orthotic and prosthetic devices made?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        Both orthotic and prosthetic devices can be custom-made to suit a patient's needs. The process usually involves creating a cast of the affected area. For orthotics, the process tends to be simpler, whereas prosthetics require a more detailed 'negative' cast of the missing limb, which is then used to create a 'positive' model. Technological advances have improved the precision and speed of this process.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        4. When should someone consult a professional about orthotics or prosthetics?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        You should consult a professional if you experience conditions like loss of sensation in your limbs or if you are at risk of losing a limb due to conditions like diabetes. Early consultation can help prevent complications, and a professional can recommend the appropriate orthotic or prosthetic device to alleviate discomfort or assist with mobility.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /END THE FEATURETTES -->
+
+    </div><!-- /.container -->
+    <h1 class="visually-hidden">Features examples</h1>
+
+    <div class="container px-4 py-5" id="featured-3">
+        <h2 class="pb-2">Services</h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#people-circle" /></svg>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Medical Orthotist & Prosthetists</h3>
+                <p>Medical orthotists & prosthetists (MOPs) are concerned with the design, manufacturing and fitting of splints, braces, surgical appliances (orthotics) and artificial limbs (prosthetics).</p>
+                <a href="#" class="icon-link">
+                    Call to action
+                    <svg class="bi"><use xlink:href="#chevron-right" /></svg>
+                </a>
+            </div>
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#collection" /></svg>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Prosthetics</h3>
+                <p>Prosthetics refer to artificial limbs or devices that replace limbs or other body parts lost as a result of amputation.</p>
+                <a href="#" class="icon-link">
+                    Call to action
+                    <svg class="bi"><use xlink:href="#chevron-right" /></svg>
+                </a>
+            </div>
+
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2" /></svg>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Orthotics</h3>
+                <p>Orthotics refer to bracing or splints that provide support or correction of a limb or body part.</p>
+                <a href="#" class="icon-link">
+                    Call to action
+                    <svg class="bi"><use xlink:href="#chevron-right" /></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="footerBackground d-none d-md-block">
+        <div class="container">
+            <footer class="row justify-content-between align-items-center py-3 my-4">
+                <div class="col-2 justify-content-start align-items-start">
+                    <!-- Brand Logo -->
+                    <a href="#" class="brand-link text-decoration-none">
+                        <img src="@Url.Content(footerLogo)" alt="Atlegang Logo" width="100" height="100">
+                    </a>
+                </div>
+                <div class="col-8 justify-content-center align-items-center">
+                    <p class="mb-3 mb-md-0 text-center text-light ">&copy; @DateTime.Now.Year @businessName · Privacy · Terms · Disclaimer</p>
+                </div>
+                <div class="col-2 justify-content-end align-items-end">
+                    <ul class="list-unstyled d-flex mb-0">
+                        <li class="ms-3 text-decoration-none"><a class="text-white" href="@twitter"><svg class="bi" width="24" height="24"><use xlink:href="#twitter" /></svg></a></li>
+                        <li class="ms-3 text-decoration-none"><a class="text-white" href="@instagram"><svg class="bi" width="24" height="24"><use xlink:href="#instagram" /></svg></a></li>
+                        <li class="ms-3 text-decoration-none"><a class="text-white" href="@facebook"><svg class="bi" width="24" height="24"><use xlink:href="#facebook" /></svg></a></li>
+                        <li class="ms-3 text-decoration-none"><a class="text-white" href="@youTube"><i class="bi bi-youtube"></i></a></li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="~/LogInPage/assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>

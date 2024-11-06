@@ -1,0 +1,165 @@
+﻿@model DataAccesslayer.Models.Dashboards.Ward_Administrator.WardAdminiStratorDashboardCards
+@{
+    ViewData["Title"] = " Ward Admin - Dashboard";
+
+}
+
+<h1 class="display-5 text-center bold">Dashboard Overview</h1>
+<hr />
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.TotalBeds</h3>
+
+                <p>TotalBeds</p>
+            </div>
+            <div class="icon">
+                <i class="bi bi-files" style="font-size: 4rem;"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+
+                <h3>@Model.TotalClosedFiles</h3>
+
+                <p>TotalClosedFiles</p>
+           
+            </div>
+            <div class="icon">
+                <i class="bi bi-people-fill" style="font-size: 4rem;"></i>
+            </div>
+        </div>
+    </div>  
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>@Model.TotalAdmittedPatients</h3>
+
+                <p>TotalAdmittedPatients</p>
+            </div>
+            <div class="icon">
+                <i class="bi bi-people-fill" style="font-size: 4rem;"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@Model.TotalOverallPatients</h3>
+
+                <p>TotalOverallPatients</p>
+            </div>
+            <div class="icon">
+                <i class="bi bi-people-fill" style="font-size: 4rem;"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+<!-- /.row -->
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.TotalReferredPatients</h3>
+
+                <p>TotalRerredPatients</p>
+            </div>
+            <div class="icon">
+                <i class="bi bi-people-fill" style="font-size: 4rem;"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@Model.TotalDischargedPerDay</h3>
+
+                <p>TotalPatientDischargedPerDay</p>
+            </div>
+            <div class="icon">
+                <i class="bi bi-people-fill" style="font-size: 4rem;"></i>
+            </div>
+        </div>
+    </div> 
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>@Model.TotalAdmittedPatientsPerDay</h3>
+
+                <p>TotalAdmittedPatientsPerDay</p>
+            </div>
+            <div class="icon">
+                <i class="bi bi-people-fill" style="font-size: 4rem;"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@Model.TotalDischargePatients</h3>
+
+                <p>TotalDischargedPatientsOverall</p>
+            </div>
+            <div class="icon">
+                <i class="bi bi-people-fill" style="font-size: 4rem;"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->     
+</div>
+<!-- /.row -->
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Active Doctors</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.DoctorList)
+                {
+                    <tr>
+                        <th>@item.FirstName</th>
+                        <th>@item.LastName</th>
+                        <th>@item.Email</th>
+                        <td>
+                            <a asp-controller="Administrator"  asp-action="ViewEmployee" asp-route-id="@item.UserID" class="btn btn-warning"> <i class="fa fa-file"></i> Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+

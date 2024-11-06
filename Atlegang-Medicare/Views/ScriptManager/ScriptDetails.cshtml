@@ -1,0 +1,59 @@
+﻿
+
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using System.Collections
+@using System.Linq
+
+@{
+    var managerID = HttpContextAccessor.HttpContext.Session.GetInt32("UserID");
+}
+
+@{
+    ViewData["Title"] = "ScriptDetails";
+}
+
+<div class="container">
+    <div class="alert-heading">
+        <h1 class="display-2 text-center bold">Script Details</h1>
+        <hr />
+    </div>
+
+    <div>
+        <h5 class="text-center bold">@ViewBag.Status by @ViewBag.Manager</h5>
+        <hr />
+    </div>
+
+    @foreach (var item in ViewBag.ScriptDetails)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                Medication
+            </dt>
+            <dd class="col-sm-10">
+                @item.MedicationName
+            </dd>
+            <dt class="col-sm-2">
+               Dosage
+               </dt>
+            <dd class="col-sm-10">
+                @item.Dosage
+            </dd>
+        </dl>
+
+        ViewBag.ScriptID = item.ScriptID;
+
+        <hr />
+    }
+
+    <div class="justify-content-end">
+        <a class="btn btn-success" href="@Url.Action("VerifyScript", "ScriptManager", new { scriptID = ViewBag.ScriptID, managerID, status = "Approved" })">Approve Prescription</a>
+        <a class="btn btn-danger" href="@Url.Action("VerifyScript", "ScriptManager", new { scriptID = ViewBag.ScriptID, managerID, status = "Declined" })">Decline Prescription</a>
+    </div>
+    <br />
+    <div>
+        <a class="btn btn-warning justify-content-end" asp-action="ViewScripts">Back to List</a>
+    </div>
+
+</div>
+

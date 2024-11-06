@@ -1,0 +1,120 @@
+﻿@model DataAccesslayer.Models.Domains.Consumable_and_Script_Manager.OrderDetail;
+
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using System.Collections
+
+@{
+    var managerID = HttpContextAccessor.HttpContext.Session.GetInt32("UserID");
+}
+
+@{
+    ViewData["title"] = "New Order";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["Success"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorAlert"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorAlert"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container">
+
+    <div class="pageHeading">
+        <h1 class="display-2 text-bold text-center">New Order</h1>
+        <p class="text-center">Place a new order for consumable</p>
+        <hr />
+    </div>
+
+    <div class="row">
+        <section class="col-8">
+            <form asp-action="AddToCart" method="post">
+                <div class="form-group col-6">
+                    <label asp-for="ConsumableID" class="form-label">Consumable</label><span class="text-danger">*</span>
+                    <select asp-for="ConsumableID" asp-items="ViewBag.ConsumableDropDown" class="form-select">
+                        <option value="">Select a Consumable</option>
+                    </select>
+                    <span asp-validation-for="ConsumableID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-2">
+                    <label asp-for="Quantity" class="form-label">Quantity</label><span class="text-danger">*</span>
+                    <input type="number" asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Message" class="form-label">Any Special Message?</label>
+                    <textarea asp-for="Message" class="form-control"></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <button asp-action="OrderHistory" class="btn btn-primary">Order History</button>
+                    </div>
+
+                    <div class="col-md-6 justify-content-end">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <aside class="col-4">
+            <div class="border p-2 border-opacity-10">
+                @{
+                    double total = 0;
+                }
+
+                @if (ViewBag.CartItems != null)
+                {
+                    foreach (var item in ViewBag.CartItems)
+                    {
+                        <div>
+                            <p class="text-bold">@item.ConsumableName</p>
+                            <div class="row">
+                                <p>Cost: R @item.Price</p>
+                                <div class="justify-content-end">
+                                    <p>Quantity: @item.Quantity</p>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+
+                        total = total + item.TotalCost;
+                    }
+                }
+
+                <div>
+                    <div class="row">
+                        <p class="col-1 text-bold">TOTAL</p>
+                        <p class="col-6 text-bold text-end d-flex justify-content-end align-items-end">R @total</p>
+                    </div>
+
+                    @if (total > 0)
+                    {
+                        <form asp-controller="ConsumableManager" asp-action="Checkout" method="post">
+                            <input value="@managerID" name="managerID" hidden />
+                            <button class="btn btn-primary">Checkout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <button asp-action="Checkout" class="btn btn-primary" disabled>Checkout</button>
+                    }
+                </div>
+            </div>
+        </aside>
+    </div>
+
+
+</div>

@@ -1,0 +1,237 @@
+﻿@model DataAccesslayer.Models.Dashboards.Nurse.NurseDashboard
+
+
+
+<!-- Page Heading -->
+<h1 class="display-5 text-center bold">Dashboard Overview</h1>
+<hr />
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"></h1>
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-download fa-sm text-white-50"></i> Export Report
+    </a>
+</div>
+
+<!-- Small boxes (Stat box) -->
+
+<div class="row">
+    <div class=" col col-md-8">
+        
+<div class="container ">
+      
+
+    <div class="row border p-3">
+     <div class="row">
+                <!-- Card 1: New Patients -->
+                <div class="col-lg-3 col-4">
+        <a href="@Url.Action("PatientsAdmittedToday", "Nurse")" class="small-box bg-info" style="text-decoration: solid; color: inherit;">
+                        <div class="inner">
+                            <h3>@Model.TotalNewAdmissions</h3>
+                            <p>New Patients</p>
+                        </div>
+                        <div class="icon">
+                            <i class="bi bi-files" style="font-size: 4rem;"></i>
+                        </div>
+                    </a>
+                </div>
+                <!-- Card 2: Total Patients Admitted -->
+                <div class="col-lg-3 col-4">
+                    <a href="@Url.Action("PatientList", "Nurse")" class="small-box bg-success" style="text-decoration: solid; color: inherit;">
+                        <div class="inner">
+                            <h3>@Model.TotalPatientsAdmitted</h3>
+                            <p>Total Patients Admitted</p>
+                        </div>
+                        <div class="icon">
+                            <i class="bi bi-calendar-heart" style="font-size: 4rem;"></i>
+                        </div>
+                    </a>
+                </div>
+                <!-- Card 3: Total Visits -->
+                <div class="col-lg-3 col-4">
+                    <a href="@Url.Action("Index", "EventVisit")" class="small-box bg-light" style="text-decoration: solid; color: inherit;">
+                        <div class="inner">
+                            <h3>@Model.TotalVisits</h3>
+                            <p>Total Visits</p>
+                        </div>
+                        <div class="icon">
+                            <i class="bi bi-people-fill" style="font-size: 4rem;"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- ./col -->
+                <div class="col-lg-3 col-4">
+                    <!-- small box -->
+                    <a href="@Url.Action("PatientsWithScripsList", "Nurse")" class="small-box bg-danger" style="text-decoration: none; color: inherit;">
+                        <div class="inner">
+                            <h3>@Model.TotalPatientsPrescriptions</h3>
+                            <p>Total Prescriptions</p>
+                        </div>
+                        <div class="icon">
+                            <i class="bi bi-people-fill" style="font-size: 4rem;"></i>
+                        </div>
+                    </a>
+                </div>
+        
+
+            <!-- /.row -->
+    
+
+
+
+    <!-- Row for Graphs Below Cards -->
+    <div class="row">
+        <div class="col-lg-7">
+            <!-- Line Chart -->
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Patient Visit</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <!-- Patients By Gender Chart -->
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Patients By Gender</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart3" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+   </div>
+ </div>
+ </div>
+ </div>
+ 
+
+<div class="col col-md-4">
+    
+<!-- Quick Actions (on the right aside) -->
+            <div class="col col-md-8">
+                <div class="card mb-8">
+        <div class="card-header">
+            <h4>Quick Actions</h4>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-column align-items-start">
+                <a href="@Url.Action("PatientList", "Nurse")" class="btn btn-outline-success mb-2">
+                    <i class="fas fa-folder-open"></i> View Patient Files
+                </a>
+
+
+
+                <a href="@Url.Action("PatientVitalsList", "Nurse")" class="btn btn-outline-info mb-2">
+                    <i class="fas fa-heartbeat"></i> View Patients Vitals
+                </a>
+
+                <a href="@Url.Action("ListPatientNote", "Nurse")" class="btn btn-outline-warning mb-2">
+                    <i class="fas fa-folder-open"></i> View Instructions
+                </a>
+
+                <a href="@Url.Action("TreatmentList", "Nurse")" class="btn btn-outline-primary mb-2">
+                    <i class="fas fa-plus-circle"></i> View Treated Patients
+                </a>
+
+                <a href="@Url.Action("AllMedicationsAdministerd", "Nurse")" class="btn btn-outline-danger mb-2">
+                    <i class="fas fa-pills"></i> View Administered Medication
+                </a>
+
+            </div>
+        </div>
+    </div>
+<div>
+    </div>
+    </div>
+
+    </div>
+    </div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx2 = document.getElementById('myChart1').getContext('2d');
+    new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            datasets: [{
+                label: 'Visits Per Ward',
+                data: [4, 24, 3, 8, 17, 6, 6],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1,
+                fill: true
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+
+
+                }
+            }
+        }
+    });
+
+    const ctx4 = document.getElementById('myChart3').getContext('2d');
+    new Chart(ctx4, {
+        type: 'pie',
+        data: {
+            labels: ['Adults', 'Children', 'Infants'],
+            datasets: [{
+                label: 'Patient Files By Age',
+                data: [16, 5 , 3],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(75, 192, 75, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(75, 192, 75, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw + ' Age';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>

@@ -1,0 +1,79 @@
+﻿@model DataAccesslayer.Models.View_Models.Nurse.PatientVitalsDetailsViewModel
+
+@{
+    ViewBag.Title = "Vitals Details";
+}
+
+<h1 class="display-5 text-center bold">Recorded Vitals Details</h1>
+<hr />
+
+
+
+
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Patient's Vital Details ID:
+        </dt>
+        <dd class="col-sm-10" >
+            @Model.PatientVitalsDetailsID
+        </dd>
+
+      
+
+
+
+        <dt class="col-sm-2">
+            Patient Name:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.PatientName
+        </dd>
+
+
+
+
+        <dt class="col-sm-2">
+            Vital Description: 
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Description
+        </dd>
+
+
+        <dt class="col-sm-2">
+            Vital Value: 
+        </dt>
+        <dd class="col-sm-10">
+            @Model.VitalValue
+        </dd>
+
+
+        <dt class="col-sm-2">
+            Date the vital was recorded: 
+        </dt>
+        <dd class="col-sm-10">
+            @Model.DateRecorded.ToString("dd MMMM yyyy hh:mm tt")
+        </dd>
+
+        <dt class="col-sm-2">
+            Vital was recorded by:
+        </dt>
+        <dd class="col-sm-10">
+            Nurse - @Model.NurseName
+        </dd>
+
+
+    </dl>
+</div>
+
+
+<div>
+
+    <a asp-action="ViewPatientVitalsDetails" class="btn btn-outline-primary">Back To List</a>
+</div>
+
+
+
+

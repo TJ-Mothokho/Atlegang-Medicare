@@ -1,0 +1,155 @@
+﻿@model DataAccesslayer.Models.Domains.Consumable_and_Script_Manager.Stock;
+
+@{
+    ViewData["Title"] = "Stock Take";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["Success"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorAlert"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorAlert"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container">
+    <h1 class="display-5 text-center bold">Stock Take</h1>
+    <hr />
+
+    <form asp-action="StockTake" method="post" id="stockForm">
+        <div class="form-group">
+            <label class="form-label" asp-for="ConsumableID">Consumable</label>
+            <select asp-for="ConsumableID" class="form-select col-4" asp-items="ViewBag.ConsumableDropDown" id="consumableSelect">
+                <option value="">Select Consumable</option>
+            </select>
+            <span asp-validation-for="ConsumableID" class="text-danger" id="consumableError"></span>
+        </div>
+        <div class="form-group">
+            <label class="form-label" asp-for="WardID">Ward</label>
+            <select asp-for="WardID" class="form-select col-4" asp-items="ViewBag.WardsDropDown" id="wardSelect">
+                <option value="">Select Ward</option>
+            </select>
+            <span asp-validation-for="WardID" class="text-danger" id="wardError"></span>
+        </div>
+
+        <div>
+            <button class="btn btn-primary" type="submit" id="searchButton"><i class="bi bi-search"></i> Search</button>
+            <button class="btn btn-warning" type="button" id="resetButton" onclick="resetFilter()"><i class="bi bi-x-lg"></i> Reset</button>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.WardID)</th>
+                    <th>@Html.DisplayNameFor(model => model.ConsumableID)</th>
+                    <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.StocksTable)
+                {
+                    <tr>
+                        <td>@item.WardName</td>
+                        <td>@item.ConsumableName</td>
+                        <td>@item.Quantity</td>
+                        <td>
+                            <a class="btn btn-primary"
+                               data-bs-toggle="modal"
+                               data-bs-target="#updateModal"
+                               data-ward-id="@item.WardID"
+                               data-ward-stock-id="@item.WardStockID"
+                               data-consumable-id="@item.ConsumableID"
+                               data-quantity="@item.Quantity"
+                               data-ward-name="@item.WardName"
+                               data-consumable-name="@item.ConsumableName">
+                                <i class="bi bi-pencil"></i> Update Stock
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">Update Stock</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="updateForm" method="post" action="@Url.Action("StockTake", "ConsumableManager")">
+                <div class="modal-body">
+                    <input type="hidden" name="WardStockID" id="modalWardStockID" value="" />
+                    <input type="hidden" name="WardID" id="modalWardID" value="" />
+                    <input type="hidden" name="ConsumableID" id="modalConsumableID" value="" />
+
+                    <div class="form-group">
+                        <p>Update</p> <h2 id="modalName"></h2> <p>stock for </p> <h2 id="modalWardName"></h2>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" asp-for="Quantity">Quantity:</label>
+                        <input class="form-control" asp-for="Quantity" id="modalQuantity" />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-warning">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function resetFilter() {
+        document.getElementById('consumableSelect').value = "";
+        document.getElementById('searchButton').disabled = true;
+    }
+</script>
+
+<script>
+    const updateModal = document.getElementById('updateModal');
+    updateModal.addEventListener('show.bs.modal', function (event) {
+        // Get the button that triggered the modal
+        var button = event.relatedTarget;
+
+        // Extract data from data-* attributes
+        var wardID = button.getAttribute('data-ward-id');                      // Ward ID
+        var wardStockID = button.getAttribute('data-ward-stock-id');           // Ward Stock ID
+        var consumableID = button.getAttribute('data-consumable-id');          // Consumable ID
+        var consumableName = button.getAttribute('data-consumable-name');      // Consumable Name
+        var quantity = button.getAttribute('data-quantity');                   // Quantity
+        var wardName = button.getAttribute('data-ward-name');
+
+        // Update the modal's input fields
+        document.getElementById('modalWardID').value = wardID;                // Set Ward ID
+        document.getElementById('modalWardStockID').value = wardStockID;      // Set Ward Stock ID
+        document.getElementById('modalConsumableID').value = consumableID;    // Set Consumable ID
+        document.getElementById('modalName').textContent = consumableName;          // Set Consumable Name
+        document.getElementById('modalQuantity').value = quantity;            // Set Quantity
+        document.getElementById('modalWardName').textContent = wardName;
+    });
+
+</script>
+
+

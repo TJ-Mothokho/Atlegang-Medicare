@@ -1,0 +1,68 @@
+﻿@model DataAccesslayer.Models.View_Models.Doctor.VisitViewModel
+@{
+    ViewBag.Title = "Schedule Planner";
+}
+
+<h1 class="display-5 text-center bold">Edit Appointment</h1>
+<hr />
+@if (TempData["SuccessUpdate"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["SuccessUpdate"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorUpdate"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorUpdate"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row offset-3">
+    <div class="col-md-6">
+        <form asp-action="UpdateVisit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VisitID" />
+            <div class="form-group">
+                <label asp-for="FileID" class="control-label"></label>
+                <input asp-for="FileID" class="form-control" readonly />
+                <span asp-validation-for="FileID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"> Title <span class="text-danger">*</span></label>
+                <select asp-for="Title" class="form-control" asp-items="ViewBag.VisitTitle">
+                    <option value="">Select Visit Title...</option>
+                </select>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label">Start Date <span class="text-danger">*</span></label>
+                <input asp-for="StartDate" class="form-control" id="startDate" type="datetime-local" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"> End Date <span class="text-danger">*</span></label>
+                <input asp-for="EndDate" class="form-control" id="endDate" type="datetime-local" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"> Description <span class="text-danger">*</span></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary btn-block" />
+                <a asp-action="ViewVisit" asp-route-id="@Model.VisitID" class="btn btn-outline-warning btn-block">Back to Details</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/dateValidation.js"></script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

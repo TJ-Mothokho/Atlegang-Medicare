@@ -1,0 +1,59 @@
+﻿@model DataAccesslayer.Models.Domains.Ward_Administrator.Movement
+
+@{
+    ViewData["Title"] = "Add Movement";
+}
+
+<h1 class="display-5 text-center bold">Add Patient Movement</h1>
+
+<hr />
+@if (TempData["TempSuccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["TempSuccess"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["TempError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["TempError"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddMovement" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FileID" class="control-label"> Patient Name <span class="text-danger">*</span></label>
+                <select asp-for="FileID" class="form-control" asp-items="ViewBag.PatientName">
+                    <option>
+                        Select Patient...
+                    </option>
+                </select>
+                <span asp-validation-for="FileID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"> Description <span class="text-danger">*</span></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" value="Available" class="form-control"  readonly/>
+            </div>
+            <br />
+            <div class="form-group d-flex">
+                <input type="submit" value="Save" class="btn btn-primary mr-3" />
+                <a asp-action="ListMovements" class="btn btn-outline-warning">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

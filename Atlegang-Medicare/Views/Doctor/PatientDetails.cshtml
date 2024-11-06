@@ -1,0 +1,323 @@
+﻿ <!--Injections-->
+        @using Microsoft.AspNetCore.Http
+        @inject IHttpContextAccessor HttpContextAccessor
+        @using System.Collections
+
+@{
+    var roleID = HttpContextAccessor.HttpContext.Session.GetInt32("RoleID");
+    var roleNames = new Hashtable
+        {
+            { 1, "Administrator" },
+            { 2, "Doctor" },
+            { 3, "Ward Admin" },
+            { 6, "Nurse"},
+            { 7, "Nurse Sister"}
+
+        };
+
+    var roleName = roleID.HasValue && roleNames.ContainsKey(roleID.Value) ? roleNames[roleID.Value] : "Guest";
+
+}
+
+
+@model DataAccesslayer.Models.View_Models.Doctor.VMPatientFile
+@{
+    ViewData["Title"] = "Patient File Details";
+}
+
+
+<h1 class="display-5 text-center bold">Patient File Details</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="PatientDetails">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="FileID" class="form-control" hidden />
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PatientName" class="control-label">Patient Name</label>
+                        <input asp-for="PatientName" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="IDNumber" class="control-label">S.A Identity Number</label>
+                        <input asp-for="IDNumber" id="IDNumber" type="number" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label">Date of Birth</label>
+                        <input asp-for="DateOfBirth" id="DateOfBirth" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label"> Gender</label>
+                        <input asp-for="Gender" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="ArrivalDate" class="control-label">Admission Date</label>
+                        <input asp-for="ArrivalDate" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="BedID" class="control-label">Bed Number</label>
+                        <input asp-for="BedID" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="RoomID" class="control-label">Room Number</label>
+                        <input asp-for="RoomID" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="WardName" class="control-label">Ward</label>
+                        <input asp-for="WardName" class="form-control" readonly />
+                    </div>
+                </div>
+                @if (roleName.ToString() == "Doctor" || roleName.ToString() == "Ward Admin")
+                {
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Patient Conditions</label>
+                            @if (ViewBag.PatientConditions != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientConditions)
+                                    {
+                                        <li class="list-group-item">@item.ChronicType</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Patient Allergies</label>
+                            @if (ViewBag.PatientAllergies != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientAllergies)
+                                    {
+                                        <li class="list-group-item">@item.Description</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Patient Medications</label>
+                            @if (ViewBag.PatientMedication != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientMedication)
+                                    {
+                                        <li class="list-group-item">@item.Name</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label  class="control-label">Patient Notes</label>
+                            @if (ViewBag.PatientNotes != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientNotes)
+                                    {
+                                        <li class="list-group-item">@item.Description</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Patient Treatments</label>
+                            @if (ViewBag.PatientTreatments != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientTreatments)
+                                    {
+                                        <li class="list-group-item">@item.Description</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Patient Vitals</label>
+                            @if (ViewBag.PatientVitals != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientVitals)
+                                    {
+                                        <li class="list-group-item">@item.Description : @item.VitalValue</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Patient Movement</label>
+                            @if (ViewBag.PatientMovement != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientMovement)
+                                    {
+                                        <li class="list-group-item">@item.Status</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                }
+                @if (roleName.ToString() == "Nurse" || roleName.ToString() == "Nurse Sister")
+                {
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Patient Conditions</label>
+                            @if (ViewBag.PatientConditions != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientConditions)
+                                    {
+                                        <li class="list-group-item">@item.ChronicType</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Patient Allergies</label>
+                            @if (ViewBag.PatientAllergies != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientAllergies)
+                                    {
+                                        <li class="list-group-item">@item.Description</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Patient Medication</label>
+                            @if (ViewBag.PatientMedication != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientMedication)
+                                    {
+                                        <li class="list-group-item">@item.Name</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Patient Notes</label>
+                            @if (ViewBag.PatientNotes != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientNotes)
+                                    {
+                                        <li class="list-group-item">@item.Description</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Patient Movement</label>
+                            @if (ViewBag.PatientMovement != null)
+                            {
+                                <ul class="list-group">
+                                    @foreach (var item in ViewBag.PatientMovement)
+                                    {
+                                        <li class="list-group-item">@item.Status</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <br />
+            <br />
+            @if (roleName.ToString() == "Nurse" || roleName.ToString() == "Nurse Sister")
+            {
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <a asp-controller="Nurse" asp-action="ViewPatientVitalsDetails" asp-route-id="@Model.FileID" class="btn btn-primary btn-lg w-100">
+                                <i class="bi bi-heart-pulse"></i> View Vitals
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <a asp-controller="Nurse" asp-action="ListPatientNote" asp-route-id="@Model.FileID" class="btn btn-primary btn-lg w-100">
+                                <i class="bi bi-journal-text"></i> View Instructions
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <a asp-controller="Nurse" asp-action="PatientTreatmentFileDetails" asp-route-id="@Model.FileID" class="btn btn-primary btn-lg w-100">
+                                <i class="bi bi-clipboard-heart"></i> View Treatments
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <a asp-controller="Nurse" asp-action="AllMedicationsAdministerd" asp-route-id="@Model.FileID" class="btn btn-primary btn-lg w-100">
+                                <i class="bi bi-prescription"></i> View Medications
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (roleName.ToString() == "Doctor")
+            {
+                <div class="form-group">
+                    <a asp-action="ListPatientFiles" class="btn btn-info"><i class="bi bi-arrow-left"></i> Back to List</a>
+                    <a href="@Url.Action("AddPrescription", "Doctor", new{ fileID = Model.FileID})" class="btn btn-primary"><i class="bi bi-clipboard2-pulse"></i> Prescribe Medication</a>
+                    <a asp-action="DischargePatient" asp-route-id="@Model.FileID" class="btn btn-outline-danger"><i class="bi bi-trash"></i> Discharge</a>
+
+                </div>
+            }
+            @if (roleName.ToString() == "Ward Admin")
+            {
+                <div class="form-group">
+                    <a asp-controller="WardAdministrator" asp-action="ListPatientFile" class="btn btn-info"><i class="bi bi-arrow-left"></i> Back to List</a>
+                </div>
+            }
+            @if (roleName.ToString() == "Nurse" || roleName.ToString() == "Nurse Sister")
+            {
+                <div>
+                    <a asp-controller="Nurse" asp-action="PatientList" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i> Back to List</a>
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+
+<script src="~/js/site.js"></script>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

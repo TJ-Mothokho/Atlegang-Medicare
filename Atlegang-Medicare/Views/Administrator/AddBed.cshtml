@@ -1,0 +1,49 @@
+﻿@model DataAccesslayer.Models.Domains.Administrator.Ward
+
+@{
+    ViewData["Title"] = "Add Bed";
+}
+
+<h1 class="display-5 text-center bold">Add Ward Beds</h1>
+<hr />
+@if (TempData["SuccessBed"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["SuccessBed"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorBed"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorBed"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddBed" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="WardID" class="control-label"> Ward Name <span class="text-danger">*</span></label>
+                <select class="form-control" asp-items="ViewBag.WardNames">
+                    <option>
+                        Select Ward...
+                    </option>
+                </select>
+            </div>
+            <div class="form-group d-flex">
+                <input type="submit" value="Save" class="btn btn-primary mr-3" />
+                <a asp-action="ListBeds" class="btn btn-outline-warning">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="~/js/dateValidation.js"></script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

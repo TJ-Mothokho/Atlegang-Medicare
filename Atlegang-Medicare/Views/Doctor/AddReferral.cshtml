@@ -1,0 +1,118 @@
+﻿@model DataAccesslayer.Models.Domains.Administrator.User
+@{
+    ViewData["Title"] = "Add Referral";
+}
+
+<h1 class="display-5 text-center bold">Add Referral</h1>
+
+<hr />
+@if (TempData["SuccessAlert"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["SuccessAlert"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorAlert"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorAlert"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddReferral" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label">First Name <span class="text-danger">*</span></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label">Last Name <span class="text-danger">*</span></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="IDNumber" class="control-label">S.A Identity Number <span class="text-danger">*</span></label>
+                        <input asp-for="IDNumber" id="IDNumber" type="number" class="form-control" />
+                        <span asp-validation-for="IDNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label">Date of Birth</label>
+                        <input asp-for="DateOfBirth" id="DateOfBirth" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label">Gender <span class="text-danger">*</span></label>
+                        <select asp-for="Gender" class="form-control" asp-items="ViewBag.GenderList">
+                            <option value="">Select Gender</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="SuburbID" class="control-label">Suburb <span class="text-danger">*</span></label>
+                        <select asp-for="SuburbID" class="form-control" asp-items="ViewBag.SuburbList">
+                            <option value="">Select Suburb</option>
+                        </select>
+                        <span asp-validation-for="SuburbID" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="ResidentialAddress" class="control-label"> Residential Address <span class="text-danger">*</span></label>
+                        <input asp-for="ResidentialAddress" class="form-control" />
+                        <span asp-validation-for="ResidentialAddress" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PhoneNumbers" class="control-label">Cellphone Number <span class="text-danger">*</span></label>
+                        <input asp-for="PhoneNumbers" class="form-control" />
+                        <span asp-validation-for="PhoneNumbers" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"> Email Address <span class="text-danger">*</span></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <input asp-for="Status" class="form-control" value="Referred" readonly />
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Refer" class="btn btn-primary btn-block" />
+                <a asp-action="ListReferral" class="btn btn-outline-primary btn-block">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/site.js"></script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,58 @@
+﻿@model DataAccesslayer.Models.View_Models.Doctor.VMNote
+
+@{
+    ViewData["Title"] = " Update Note";
+}
+
+<h1 class="display-5 text-center bold">Update Patient Note</h1>
+<hr />
+@if (TempData["SuccessAlert"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["SuccessAlert"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorAlert"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorAlert"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="UpdateNote" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="NoteID" type="hidden" />
+            <div class="row">
+                <div class="form-group">
+                    <label  class="control-label">File Identity <span class="text-danger">*</span></label>
+                    <input asp-for="FileID" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"> Issued Date <span class="text-danger">*</span></label>
+                    <input asp-for="Date" class="form-control" id="issuedDate" type="datetime-local" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"> Description <span class="text-danger">*</span></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>           
+            <br />
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="ListPatientNote" class="btn btn-outline-warning">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

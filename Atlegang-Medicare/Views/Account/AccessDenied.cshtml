@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<!--Injections-->
+        @using Microsoft.AspNetCore.Http
+        @inject IHttpContextAccessor HttpContextAccessor
+        @using System.Collections
+
+@{
+    var businessName = HttpContextAccessor.HttpContext.Session.GetString("BusinessName");
+    var slogan = HttpContextAccessor.HttpContext.Session.GetString("Slogan");
+    var mainLogo = HttpContextAccessor.HttpContext.Session.GetString("MainLogo");
+    var footerLogo = HttpContextAccessor.HttpContext.Session.GetString("FooterLogo");
+    var facebook = HttpContextAccessor.HttpContext.Session.GetString("Facebook");
+    var instagram = HttpContextAccessor.HttpContext.Session.GetString("Instagram");
+    var youTube = HttpContextAccessor.HttpContext.Session.GetString("YouTube");
+    var twitter = HttpContextAccessor.HttpContext.Session.GetString("Twitter");
+
+
+
+    var roleID = HttpContextAccessor.HttpContext.Session.GetInt32("RoleID");
+    var roleNames = new Hashtable
+        {
+        { 2, "Doctor" },
+        { 3, "Ward Admin" },
+        { 4, "Consumable Manager"},
+        { 5, "Script Manager"},
+        { 6, "Nurse"},
+        { 7, "Nurse Sister"}
+        //Make sure the ID matches the ID in the database
+        };
+
+    var roleName = roleID.HasValue && roleNames.ContainsKey(roleID.Value) ? roleNames[roleID.Value] : "Guest";
+
+    if (roleName == "Guest")
+    {
+        <script>
+            window.location.href = '@Url.Action("LoginPage", "Account")';
+        </script>
+    }
+
+}
+
+<!-- Optional: Some custom styling -->
+<style>
+    .access-denied-content {
+        padding: 60px;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        border-radius: 10px;
+    }
+
+        .access-denied-content h1 {
+            font-weight: 700;
+        }
+</style>
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="access-denied-content">
+                <h1 class="display-4">Access Denied</h1>
+                <p class="lead mt-4">Sorry, you do not have permission to access this page.</p>
+                @if (roleName.ToString() == "Doctor")
+                {
+                    <a href="@Url.Action("Index", "Doctor")" class="btn btn-primary mt-4">Dashboard Overview</a>
+                }
+                @if (roleName.ToString() == "Ward Admin")
+                {
+                    <a href="@Url.Action("Index", "WardAdministrator")" class="btn btn-primary mt-4">Dashboard Overview</a>
+                }
+                @if (roleName.ToString() == "Consumable Manager")
+                {
+                    <a href="@Url.Action("Index", "ConsumableManager")" class="btn btn-primary mt-4">Dashboard Overview</a>
+                }
+                @if (roleName.ToString() == "Script Manager")
+                {
+                    <a href="@Url.Action("Index", "ScriptManager")" class="btn btn-primary mt-4">Dashboard Overview</a>
+                }
+                @if (roleName.ToString() == "Nurse" || roleName.ToString() == "Nurse Sister")
+                {
+                    <a href="@Url.Action("Index", "Nurse")" class="btn btn-primary mt-4">Dashboard Overview</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

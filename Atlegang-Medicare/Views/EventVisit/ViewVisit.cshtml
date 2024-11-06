@@ -1,0 +1,75 @@
+﻿@model DataAccesslayer.Models.View_Models.Doctor.VisitViewModel
+
+@{
+    ViewData["Title"] = "Patient's Visit Details";
+}
+
+<style>
+    .Pen {
+        color:blue;
+    }
+    .Bin{
+        color:red;
+    }
+</style>
+
+<div class="container">
+    <div class="alert-heading">
+        <h1 class="display-2 text-center bold">Visits Details</h1>
+        <hr />
+    </div>
+    <div class="row">
+        <div class="d-flex justify-content-end">
+            <div class="form-group row">
+                <label asp-for="PatientName" class="col-form-label col-sm-4 text-right">Patient</label>
+                <div class="col-sm-8">
+                    <input asp-for="PatientName" class="form-control" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+
+    @foreach (var item in ViewBag.PatientVisits)
+    {
+        <dl class="row">
+            <div class="d-flex justify-content-end">
+                <a asp-action="UpdateVisit" asp-route-id="@item.VisitID" class="Pen"><i class="bi bi-pen"></i></a>
+            </div>
+            <dt class="col-sm-2">
+                Title
+            </dt>
+            <dd class="col-sm-10">
+                @item.Title
+            </dd>
+            <dt class="col-sm-2">
+                Description
+            <dd class="col-sm-10">
+                @item.Description
+            </dd>
+            <dt class="col-sm-2">
+                Start Date
+            <dd class="col-sm-10">
+                @item.StartDate
+            </dd>
+            <dt class="col-sm-2">
+                End Date
+            <dd class="col-sm-10">
+                @item.EndDate
+            </dd>
+            <div class="d-flex justify-content-end">
+                <a asp-route-id="@item.VisitID"> <i class="bi bi-trash"></i></a>
+            </div>
+        </dl>
+        <hr />
+    }
+
+    <div class="justify-content-end">
+        <a asp-action="ListVisit" class="btn btn-info"> <i class="bi bi-arrow-left"></i> Back to List</a>
+    </div> 
+</div>
+<br /><br />
+
+
+

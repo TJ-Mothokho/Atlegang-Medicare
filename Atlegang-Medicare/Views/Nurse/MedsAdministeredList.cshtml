@@ -1,0 +1,60 @@
+﻿@model IEnumerable<DataAccesslayer.Models.View_Models.Nurse.VMAdministerMeds>
+
+@{
+    ViewData["Title"] = "Recently Administered Medications";
+}
+
+<div class="d-flex justify-content-end">
+    <a asp-action="AddAdministerMeds" class="btn btn-primary" style="width: 300px; padding: 12px; font-size: 18px;"><i class="fa fa-plus"></i>Administer Medication</a>
+</div>
+<br />
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Medications Administered Recently</h3>
+    </div>
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+
+            <thead>
+                <tr>
+                    <th>#</th>
+                   <th>Patient Name</th>
+                    <th>Medication Administered </th>
+                    <th>Date</th>                 
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                @{
+                    int counter = 1; // Initialize a counter for numbering
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@counter</td> 
+                         <td>@item.PatientName</td>
+                        <td>@item.MedicationName</td>
+                        <td>@item.Date.ToString("dd MMMM yyyy")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@item.Date.ToString("hh:mm tt")</td>
+
+                        <td>
+                            <a asp-action="AllMedicationsAdministerd" asp-route-id="@item.FileID" class="btn btn-info"> <i class="fa fa-file-export"></i> Details</a>
+                        </td>
+
+                    </tr>
+                    {
+                        counter++; // Increment the counter
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+   
+</div>
+<br />
+
+<div>
+    <a href="@Url.Action("Index", "Nurse", new { })" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i>Home</a>
+</div>

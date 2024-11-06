@@ -1,0 +1,52 @@
+﻿@model IEnumerable<DataAccesslayer.Models.View_Models.Nurse.VMPatientTreatment>
+@{
+    ViewBag.Title = "Recently Treated Patients";
+}
+
+
+
+<h1 class="display-5 text-center bold">List Of Recently Treated Patients</h1>
+ <hr />
+
+<div class="card">
+  
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Treatments </th>
+                    <th>Date</th>
+                    <th>Action</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.PatientName</td>
+                        <td>@item.Description</td>
+                                <td>@item.Date.ToString("dd MMMM yyyy")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@item.Date.ToString("hh:mm tt")</td>
+                        <td>
+                            <a asp-action="PatientTreatmentFileDetails" asp-route-id="@item.FileID" class="btn btn-info"> <i class="fa fa-file-export"></i> Details</a>
+                            </td>
+
+                            <td>
+                            <a asp-action="AddPatientTreatment" asp-route-id="@item.FileID" class="btn btn-primary"> <i class="fa fa-export"></i> Record Treatment</a>
+
+                        </td>
+                      
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<br />
+<div>
+    <a href="@Url.Action("Index", "Nurse", new { })" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i>Home</a>
+</div>

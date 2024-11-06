@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DataAccesslayer.Models.Domains.Administrator.Bed>
+
+@{
+    ViewBag.Title = "Bed List";
+}
+
+<h1 class="display-5 text-center bold">Ward Bed List</h1>
+<hr />
+
+<div class="d-flex justify-content-end">
+    <a asp-action="AddBed" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Bed</a>
+</div>
+
+<br />
+<div class="card mb-5">
+    <div class="card-header">
+        <h3 class="card-title">Available Beds</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Bed Number</th>
+                    <th>Room Number</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>@item.BedID</th>
+                        <th>@item.RoomID</th>
+                        <th>@item.Status</th>                       
+                        <td>
+                            <a asp-action="DeleteBed" asp-route-id="@item.BedID" class="btn btn-danger"> <i class="bi bi-trash"></i> Cancel</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+

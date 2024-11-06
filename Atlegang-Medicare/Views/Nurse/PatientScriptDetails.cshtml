@@ -1,0 +1,85 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Patient Script Details";
+}
+
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using System.Collections
+
+@{
+    var nurseID = HttpContextAccessor.HttpContext.Session.GetInt32("UserID");
+    var roleID = HttpContextAccessor.HttpContext.Session.GetInt32("RoleID");
+}
+
+
+<h1 class="display-5 text-center bold">Prescribed Medications</h1>
+<hr />
+   
+
+    <div class="form-group ">
+        <label class="form-label">Patient Name: </label>
+        <input value="@ViewBag.PatientName" disabled />
+    </div>
+
+<div class="card">
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Medication</th>
+                    <th>Dosage</th>
+                    <th>Expiry Date</th>
+                    <th>Schedule</th>
+                    <th>Count</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>@item.MedicationName</th>
+                        <th>@item.Dosage</th>
+                        <th>@item.ExpiryDate.ToString("dd MMMM yyyy")</th>
+                        <th>@item.Schedule</th>
+                        <th>@item.AdministerCount</th>
+                        @if (roleID == 6 && @item.Schedule <= 4)
+                        {
+                            <th>
+                                <a class="btn btn-primary" href="@Url.Action("AddAdministerMeds", "Nurse", new{ nurseID, medicationID = item.MedicationID })">Administer Meds</a>
+                            </th>
+                        }
+                        else if (roleID == 6 && @item.Schedule > 4)
+                        {
+                            <th>
+                                <button class="btn btn-primary" href="@Url.Action("AddAdministerMeds", "Nurse", new{ nurseID, medicationID = item.MedicationID })" disabled>Administer Meds</button>
+                            </th>
+                        }
+                        else if (roleID == 7 && @item.Schedule > 4)
+                        {
+                            <th>
+                                <a class="btn btn-primary" href="@Url.Action("AddAdministerMeds", "Nurse", new{ nurseID, medicationID = item.MedicationID })">Administer Meds</a>
+                            </th>
+                        }
+                        else if (roleID == 7 && @item.Schedule <= 4)
+                        {
+                            <th>
+                                <button class="btn btn-primary" href="@Url.Action("AddAdministerMeds", "Nurse", new{ nurseID, medicationID = item.MedicationID })" disabled>Administer Meds</button>
+                            </th>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    
+</div>
+
+
+<br />
+<div>
+    <a href="@Url.Action("PatientsWithScripsList", "Nurse", new{})" class="btn btn-outline-primary">Back To List</a>
+</div>
+

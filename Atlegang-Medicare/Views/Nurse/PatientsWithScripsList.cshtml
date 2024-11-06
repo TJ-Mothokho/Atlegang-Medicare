@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DataAccesslayer.Models.Domains.Consumable_and_Script_Manager.Script>
+
+@{
+    ViewData["Title"] = "Patients With Prescribed Medication";
+}
+
+<h1 class="display-5 text-center bold">Patients With Prescribed Medication</h1>
+<hr />
+
+<br />
+<div class="card">
+   
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Script Date</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+           
+                @foreach (var item in ViewBag.ScriptList)
+                {
+                    <tr>
+                        <td>@item.Patient</td>
+                        <td>@item.Doctor</td>
+                        <td>@item.ScriptDate.ToString("dd MMMM yyyy")</td>
+                        <td>
+                            <a href="@Url.Action("PatientScriptDetails", "Nurse", new{ scriptId = @item.ScriptID, fileId = item.FileID })" class="btn btn-info">
+                                <i class="fa fa-file-export"></i>Scripts Details</a>
+                        </td>
+                    </tr>
+                    
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<br />
+<div>
+    <a href="@Url.Action("Index", "Nurse", new { })" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i>Home</a>
+</div>

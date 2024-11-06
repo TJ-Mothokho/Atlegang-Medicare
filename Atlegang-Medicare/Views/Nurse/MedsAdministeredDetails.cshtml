@@ -1,0 +1,62 @@
+﻿@model DataAccesslayer.Models.View_Models.Nurse.VMAdministerMeds
+
+
+
+<h1 class="display-5 text-center bold">Administered Medication Details</h1>
+<hr />
+
+
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Administered Medication Identity</label>
+            <div class="col-sm-8">
+                <input value=" @Model.MedsAdministerID" class="form-control-plaintext" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Nurse Name</label>
+            <div class="col-sm-8">
+                <input value="@Model.NurseName" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Patient Name</label>
+            <div class="col-sm-8">
+                <input value="@Model.PatientName" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Medication Name</label>
+            <div class="col-sm-8">
+                <input value="@Model.MedicationName" class="form-control" readonly />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Schedule</label>
+            <div class="col-sm-8">
+                <input value="@Model.Schedule" class="form-control" readonly />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label"> Date Administered</label>
+            <div class="col-sm-8">
+                <input value=" @Model.Date.ToString("dd MMMM yyyy hh:mm tt")" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="col-sm-4 d-grid">
+            <a class="btn btn-outline-primary" asp-action="AllMedicationsAdministerd">Back to list</a>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+

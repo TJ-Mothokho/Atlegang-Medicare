@@ -1,0 +1,174 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using System.Collections
+
+@{
+    var nurseID = HttpContextAccessor.HttpContext.Session.GetInt32("UserID");
+}
+
+@{
+    ViewData["Title"] = "Patient Vitals";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@TempData["Success"]</strong> Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<h1 class="display-5 text-center bold">Add Patients</h1>
+<hr />
+
+<div class="container ">
+      
+
+    <div class="row border p-3">
+        <form asp-action="AddPatientVitals" method="post">
+            <div class="row">
+                <section class=col-7>
+                    <input value="@ViewBag.FileID" name="fileID" hidden />
+                    <input value="@nurseID" name="nurseID"  hidden />
+                    <!-- Temperature -->
+                    <div class="form-group row">
+                        <label class="col-lg-4 form-label"><i class="fas fa-thermometer-half"> Temperature (°C)</i></label>
+                        <div class="col-5">
+                            <!--
+                                name="[0].VitalID": Assigns the hidden input to the first instance (index 0) of the PatientVitalDetails list.
+                                value="1": The VitalID for Temperature is hardcoded as "1".
+                            -->
+                            <input type="hidden" name="[0].VitalID" value="3" />
+                            <select class="form-select" name="[0].VitalValue" asp-items="ViewBag.TemperatureOptions">
+                                <option selected>Select Temperature</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Blood Pressure -->
+                    <div class="form-group row">
+                        <label class="col-lg-4 form-label"><i class="fas fa-tachometer-alt"> Blood Pressure (mmHg)</i></label>
+                        <div class="col-5">
+                            <input type="hidden" name="[1].VitalID" value="2" />
+                            <select class="form-select" name="[1].VitalValue" asp-items="ViewBag.BloodPressureOptions">
+                                <option selected>Select Blood Pressure</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Blood Sugar -->
+                    <div class="form-group row">
+                        <label class="col-lg-4 form-label"><i class="fas fa-tint"> Blood Sugar Level (mg/dL)</i></label>
+                        <div class="col-5">
+                            <input type="hidden" name="[2].VitalID" value="4" />
+                            <select class="form-select" name="[2].VitalValue" asp-items="ViewBag.BloodSugarOptions">
+                                <option selected>Select Blood Sugar</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Heart Rate -->
+                    <div class="form-group row">
+                        <label class="col-lg-4 form-label"><i class="fas fa-heartbeat"> Pulse Rate (bpm)</i></label>
+                        <div class="col-5">
+                            <input type="hidden" name="[3].VitalID" value="5" />
+                            <select class="form-select" name="[3].VitalValue" asp-items="ViewBag.HeartRateOptions">
+                                <option selected>Select Heart Rate</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Respiratory Rate -->
+                    <div class="form-group row">
+                        <label class="col-lg-4 form-label"><i class="fas fa-lungs"> Respiratory Rate (breaths/min)</i></label>
+                        <div class="col-5">
+                            <input type="hidden" name="[4].VitalID" value="6" />
+                            <select class="form-select" name="[4].VitalValue" asp-items="ViewBag.RespiratoryRateOptions">
+                                <option selected>Select Respiratory Rate</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+@* 
+                <aside class="col-5">
+ *@
+                <div class="col col-md-4">
+                    <div class="cart-card border bg-white" style="display: flex; width: auto; padding: 10px; align-items: left;">
+                        <div class="cart-card-body" style="flex-grow: 1;">
+
+                        <h5 class="cart-card-title">Air or Oxygen?</h5>
+                        <label class="cart-card-text">
+                            <input type="hidden" name="[5].VitalID" value="7" />
+                            <input type="radio" name="[5].VitalValue" value="Air">Air
+                        </label>
+                        <br>
+                        <label class="cart-card-text">
+                            <input type="hidden" name="[5].VitalID" value="7" />
+                            <input type="radio" name="[5].VitalValue" value="Oxygen"> Oxygen
+                        </label>
+                        <div class="error-message" id="airOrOxygenError"></div>
+                    </div>
+
+                    <!--Consciousness-->
+                    <div class="ml-auto text-left">
+                        <h5 class="cart-card-title">Consciousness</h5>
+                        <label class="cart-card-text">
+                            <input type="hidden" name="[6].VitalID" value="8" />
+                            <input type="radio" name="[6].VitalValue" value="Alert"> Alert
+                        </label>
+                        <br>
+                        <label class="cart-card-text">
+                            <input type="hidden" name="[6].VitalID" value="8" />
+                            <input type="radio" name="[6].VitalValue" value="Confused"> Confused
+                        </label>
+                        <br>
+                        <label class="cart-card-text">
+                            <input type="hidden" name="[6].VitalID" value="8" />
+                            <input type="radio" name="[6].VitalValue" value="Voice"> Voice
+                        </label>
+                        <br>
+                        <label class="cart-card-text">
+                            <input type="hidden" name="[6].VitalID" value="8" />
+                            <input type="radio" name="[6].VitalValue" value="Pain"> Pain
+                        </label>
+                        <br>
+                        <label class="cart-card-text">
+                            <input type="hidden" name="[6].VitalID" value="8" />
+                            <input type="radio" name="[6].VitalValue" value="Unresponsive"> Unresponsive
+                        </label>
+                        <div class="error-message" id="consciousnessError"></div>
+                    </div>
+                  </div>
+                </div>
+
+            
+
+                <!-- Submit Button -->
+                <div class="form-group text-right">
+                    <button type="reset"class="btn btn-primary"> Reset</button>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br />
+    <br />
+    <div>
+
+        <a href="@Url.Action("PatientVitalsList", "Nurse", new{})">Back To List</a>
+    </div>
+</div>
+
+
+<script src="~/js/dateValidation.js"></script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+
+
+}
+</div>

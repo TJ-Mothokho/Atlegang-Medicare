@@ -1,0 +1,677 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Assets/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/Assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/Assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="~/Assets/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Assets/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/Assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/Assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/Assets/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/Assets/plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        .white-hr {
+            border-color: white;
+        }
+
+        .custom-margin {
+            margin-right: 10px; /* Adjust the value as needed */
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Preloader -->
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <div class="spinner-border" style="color:#005146;" role="status">
+                <span class="visually">Loading...</span>
+            </div>
+        </div>
+
+        <!--Injections-->
+        @using Microsoft.AspNetCore.Http
+        @inject IHttpContextAccessor HttpContextAccessor
+        @using System.Collections
+
+        @{
+            var businessName = HttpContextAccessor.HttpContext.Session.GetString("BusinessName");
+            var slogan = HttpContextAccessor.HttpContext.Session.GetString("Slogan");
+            var mainLogo = HttpContextAccessor.HttpContext.Session.GetString("MainLogo");
+            var footerLogo = HttpContextAccessor.HttpContext.Session.GetString("FooterLogo");
+            var facebook = HttpContextAccessor.HttpContext.Session.GetString("Facebook");
+            var instagram = HttpContextAccessor.HttpContext.Session.GetString("Instagram");
+            var youTube = HttpContextAccessor.HttpContext.Session.GetString("YouTube");
+            var twitter = HttpContextAccessor.HttpContext.Session.GetString("Twitter");
+
+
+
+            var roleID = HttpContextAccessor.HttpContext.Session.GetInt32("RoleID");
+            var roleNames = new Hashtable
+        {
+        { 1, "Administrator" },
+        { 2, "Doctor" },
+        { 3, "Ward Admin" },
+        { 4, "Consumable Manager"},
+        { 5, "Script Manager"},
+        { 6, "Nurse"},
+        { 7, "Nurse Sister"}
+        //Make sure the ID matches the ID in the database
+        };
+
+            var roleName = roleID.HasValue && roleNames.ContainsKey(roleID.Value) ? roleNames[roleID.Value] : "Guest";
+
+            if (roleName == "Guest")
+            {
+                <script>
+                    window.location.href = '@Url.Action("LoginPage", "Account")';
+                </script>
+            }
+
+        }
+
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Navbar Search -->
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                    </a>
+                    <div class="navbar-search-block">
+                    </div>
+                </li>
+
+            </ul>
+            <!--Partial View-->
+            <div class="top-bar">
+                @{
+                    await Html.RenderPartialAsync("_ProfilePartial");
+                }
+            </div>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a class="brand-link text-decoration-none">
+                <img src="@Url.Content(footerLogo)" alt="Atlegang Logo" class="brand-image" style="opacity: .9">
+                <span class="brand-text font-weight-light ">Atlegang MediCare</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="info">
+                        <a href="#" class="d-block text-decoration-none">@roleName</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                        <!---NAVIGATION starts here-->
+                        @if (roleName.ToString() == "Administrator")
+                        {
+                            <!--Dashboard-->
+                            <li class="nav-item">
+                                <a asp-controller="Administrator" asp-action="Index" class="nav-link">
+                                    <i class="bi bi-graph-up"></i>
+                                    <p>
+                                        Dashboard
+                                    </p>
+                                </a>
+                            </li>
+
+                            <!--Employees-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="bi bi-person-add"></i>
+                                    <p>
+                                        Employees
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Administrator" asp-action="ListEmployee" class="nav-link">
+                                            <i class="bi bi-people"></i>
+                                            <p>View Employees</p>
+                                        </a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                            <!--Beds-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="bi bi-segmented-nav"></i>
+                                    <p>
+                                        Manage Beds
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Administrator" asp-action="ListBeds" class="nav-link">
+                                            <i class="bi bi-segmented-nav"></i>
+                                            <p>View Beds</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (roleName.ToString() == "Doctor")
+                        {
+                            <!--Dashboard-->
+                            <li class="nav-item">
+                                <a asp-controller="Doctor" asp-action="Index" class="nav-link">
+                                    <i class="bi bi-graph-up"></i>
+                                    <p>
+                                        Dashboard
+                                    </p>
+                                </a>
+                            </li>
+                            <!--Patient Folders-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="bi bi-folder-fill"></i>
+                                    <p>
+                                        View Folders
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Doctor" asp-action="ListPatientFiles" class="nav-link">
+                                            <i class="bi bi-journal-medical"></i>
+                                            <p>Patient Folders</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="bi bi-plus"></i>
+                                            <p>
+                                                <i class="right fas fa-angle-left"></i>
+                                                Patient Additional
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a asp-controller="Nurse" asp-action="ListPatientNote" class="nav-link">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                    <p>Patient Instructions</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a asp-controller="EventVisit" asp-action="AddVisit" class="nav-link">
+                                                    <i class="bi bi-calendar-heart"></i>
+                                                    <p>Appointment</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--Schedule-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="bi bi-calendar-heart"></i>
+                                    <p>
+                                        Patient Visits
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="EventVisit" asp-action="Index" class="nav-link">
+                                            <i class="bi bi-calendar-month"></i>
+                                            <p>
+                                                Calendar
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="EventVisit" asp-action="ListVisit" class="nav-link">
+                                            <i class="bi bi-calendar-heart"></i>
+                                            <p>Recent Scheduled Visits</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--Consultation-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                    <p>
+                                        Consultation
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Doctor" asp-action="ListReferral" class="nav-link">
+                                            <i class="bi bi-folder-symlink-fill"></i>
+                                            <p>Recent Referrals</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Doctor" asp-action="ListRemovedReferral" class="nav-link">
+                                            <i class="bi bi-folder-x"></i>
+                                            <p>Cancelled Referrals</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Doctor" asp-action="ListDischargedPatients" class="nav-link">
+                                            <i class="bi bi-folder2"></i>
+                                            <p>Discharged Patients</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (roleName.ToString() == "Script Manager")
+                        {
+                            <!--Dashboard-->
+                            <li class="nav-item">
+                                <a asp-controller="ScriptManager" asp-action="Index" class="nav-link">
+                                    <i class="bi bi-graph-up"></i>
+                                    <p>
+                                        Dashboard
+                                    </p>
+                                </a>
+                            </li>
+                            <!--Script-->
+                            <li class="nav-item">
+                                <a asp-controller="ScriptManager" asp-action="ViewScripts" class="nav-link">
+                                    <i class="bi bi-person-lines-fill"></i>
+                                    <p>
+                                        Script
+                                    </p>
+                                </a>
+                            </li>
+
+                            <!--Medication-->
+                            <li class="nav-item">
+                                <a asp-controller="ScriptManager" asp-action="ViewMedication" class="nav-link">
+                                    <i class="bi bi-capsule"></i>
+                                    <p>
+                                        Medication
+                                    </p>
+                                </a>
+                            </li>
+
+                        }
+
+                        @if (roleName.ToString() == "Consumable Manager")
+                        {
+                            <!--Dashboard-->
+                            <li class="nav-item">
+                                <a asp-controller="ConsumableManager" asp-action="Index" class="nav-link">
+                                    <i class="bi bi-graph-up"></i>
+                                    <p>
+                                        Dashboard
+                                    </p>
+                                </a>
+                            </li>
+                            <!--Orders-->
+                            <li class="nav-item">
+                                <a asp-controller="ConsumableManager" asp-action="Orders" class="nav-link">
+                                    <i class="bi bi-cart"></i>
+                                    <p>
+                                        Orders
+                                    </p>
+                                </a>
+                            </li>
+
+                            <!--Stock-->
+                            <li class="nav-item">
+                                <a asp-controller="ConsumableManager" asp-action="StockTake" class="nav-link">
+                                    <i class="bi bi-card-checklist"></i>
+                                    <p>
+                                        Stock Take
+                                    </p>
+                                </a>
+                            </li>
+
+                            <!--manage-->
+
+                            <li class="nav-item">
+                                <a asp-controller="ConsumableManager" asp-action="ViewConsumables" class="nav-link">
+                                    <i class="bi bi-list-ul"></i>
+                                    <p>View Consumables</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="ConsumableManager" asp-action="AddConsumable" class="nav-link">
+                                    <i class="bi bi-plus-circle"></i>
+                                    <p>Add Consumables</p>
+                                </a>
+                            </li>
+                        }
+
+                        @if (roleName.ToString() == "Nurse" || roleName.ToString() == "Nurse Sister")
+                        {
+                            <!--Dashboard-->
+                            <li class="nav-item">
+                                <a asp-controller="Nurse" asp-action="Index" class="nav-link">
+                                    <i class="bi bi-graph-up"></i>
+                                    <p>
+                                        Dashboard
+                                    </p>
+                                </a>
+                            </li>
+
+                            <!--Patient Folders-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-notes-medical"></i>
+                                    Patient Folders
+                                    <i class="right fas fa-angle-left"></i>
+
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Nurse" asp-action="PatientsAdmittedToday" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>New Patients</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Nurse" asp-action="PatientList" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>All Patients</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+
+                            <!--Vital Signs-->
+                            <li class="nav-item">
+                                <a asp-controller="Nurse" asp-action="PatientVitalsList" class="nav-link">
+                                    <i class="nav-icon fas fa-heartbeat"></i>
+                                    <p>
+                                        Vital Signs
+                                    </p>
+                                </a>
+                            </li>
+                            <!--Visit Details-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-calendar-alt"></i>                                    <p>
+                                        Visit Details
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="EventVisit" asp-action="Index" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Visit Schedule</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Nurse" asp-action="ListPatientNote" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Instructions</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--Treatment-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-pills"></i>
+                                    <p>
+                                        Treatment
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Nurse" asp-action="PatientsWithScripsList" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Administer Medication</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Nurse" asp-action="TreatmentList" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Treat Patient</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        @if (roleName.ToString() == "Ward Admin")
+                        {
+                            <!--Dashboard WARD-->
+                            <li class="nav-item">
+                                <a asp-controller="WardAdministrator" asp-action="Index" class="nav-link">
+                                    <i class="bi bi-graph-up"></i>
+                                    <p>
+                                        Dashboard
+                                    </p>
+                                </a>
+                            </li>
+                            <!--Referrals-->
+                            <li class="nav-item">
+                                <a asp-controller="WardAdministrator" asp-action="Referrals" class="nav-link">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    <p>
+                                        Referrals
+                                    </p>
+                                </a>
+                            </li>
+                            <!--Patient-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="bi bi-file-person"></i>
+                                    <p>
+                                        Patient
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+
+                                    <li class="nav-item">
+                                        <a asp-controller="WardAdministrator" asp-action="ListPatientFile" class="nav-link">
+                                            <i class="bi bi-person-lines-fill"></i>
+
+                                            <p>View Patients</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="WardAdministrator" asp-action="ListMovements" class="nav-link">
+                                            <i class="bi bi-person-walking"></i>
+                                            <p>Patient Movement</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="WardAdministrator" asp-action="ListDischargePatient" class="nav-link">
+                                            <i class="bi bi-person-dash"></i>
+                                            <p>Discharge Patients</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--Schedule-->
+                            <li class="nav-item">
+                                <a asp-controller="EventVisit" asp-action="Index" class="nav-link">
+                                    <i class="bi bi-calendar-heart"></i>
+                                    <p>
+                                        Schedule
+                                    </p>
+                                </a>
+                            </li>                           
+                        }
+                        <!--Should end here-->
+                    </ul>
+                </nav>
+                <hr class="white-hr">
+            </div>
+        </aside>
+    </div>
+
+
+
+
+    <!-- /.sidebar -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <br />
+                @RenderBody()
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer d-none d-md-block" style="background-color:#005146; padding: 20px 0;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Brand Logo -->
+            <div class="d-flex justify-content-start align-items-start">
+                <a class="brand-link text-decoration-none">
+                    <img src="@Url.Content(footerLogo)" alt="Atlegang Logo" width="75" height="75">
+                </a>
+            </div>
+            <!-- Centered Text -->
+            <div class="justify-content-center align-items-center">
+                <span class="text-center text-light">&copy; @DateTime.Now.Year @businessName · Privacy · Terms · Disclaimer</span>
+            </div>
+
+            <!-- Social Icons -->
+            <div class="d-flex justify-content-end">
+                <ul class="list-unstyled d-flex mb-0">
+                    <li class="ms-3 text-decoration-none"><a class="text-white white" href="@twitter"><svg class="bi" width="24" height="24"><use xlink:href="#twitter" /></svg></a></li>
+                    <li class="ms-3 text-decoration-none"><a class="text-white" href="@instagram"><svg class="bi" width="24" height="24"><use xlink:href="#instagram" /></svg></a></li>
+                    <li class="ms-3 text-decoration-none"><a class="text-white" href="@facebook"><svg class="bi" width="24" height="24"><use xlink:href="#facebook" /></svg></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+        <symbol id="facebook" viewBox="0 0 16 16">
+            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+        </symbol>
+        <symbol id="instagram" viewBox="0 0 16 16">
+            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
+        </symbol>
+        <symbol id="twitter" viewBox="0 0 16 16">
+            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+        </symbol>
+    </svg>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="~/Assets/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/Assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/Assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/Assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Assets/plugins/jszip/jszip.min.js"></script>
+    <script src="~/Assets/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/Assets/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/Assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- DataTable Con-->
+    <script>
+        $(function () {
+            $("#table1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false
+            }).buttons().container().appendTo('#table1_wrapper .col-md-6:eq(0)');
+            $('#table2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+    <!-- Sparkline -->
+    <script src="~/Assets/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="~/Assets/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="~/Assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="~/Assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="~/Assets/plugins/moment/moment.min.js"></script>
+    <script src="~/Assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/Assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/Assets/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/Assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- Atlegang App -->
+    <script src="~/Assets/dist/js/adminlte.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Page specific script -->
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

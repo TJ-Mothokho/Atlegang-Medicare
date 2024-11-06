@@ -1,0 +1,62 @@
+﻿@model DataAccesslayer.Models.View_Models.Nurse.VMPatientTreatment
+@{
+    ViewBag.Title = "Update Patient Treatment";
+}
+
+<hr />
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@TempData["Success"]</strong> Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="UpdatePatientTreatment" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="PatientTreatmentID" type="hidden" />
+
+                <label asp-for="FileID" class="control-label">Patient Name<span class="text-danger">*</span></label>
+                <input asp-for="FileID" class="form-control"  readonly/>               
+                <span asp-validation-for="FileID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TreatmentID" class="control-label">Treatments List <span class="text-danger">*</span></label>
+
+                <select asp-for="TreatmentID" class="form-control" asp-items="ViewBag.PatientTreatment">
+                    <option>
+                        Select Treatment...
+                    </option>
+                </select>
+                <span asp-validation-for="TreatmentID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" readonly />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            
+            <br />
+
+            <div class="form-group d-flex">
+                <input type="submit" value="Save" class="btn btn-primary mr-3" />
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="TreatmentList" class="btn btn-outline-primary">Back to List</a>
+
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

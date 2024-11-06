@@ -1,0 +1,58 @@
+﻿@model DataAccesslayer.Models.View_Models.Doctor.VMPatientFile
+
+@{
+    ViewData["Title"] = "Update Patient";
+}
+
+
+<h1 class="display-5 text-center bold">Update Patient File</h1>
+
+<hr />
+@if (TempData["TempSuccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["TempSuccess"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["TempError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["TempError"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="UpdatePatientFile" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input class="form-control" asp-for="FileID" value="@Model.FileID" hidden />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Patient Name</label>
+                        <input class="form-control" value="@Model.PatientName" disabled />
+                    </div>
+                </div>                
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="DoctorID" class="control-label"></label>
+                        <select asp-for="DoctorID" class="form-control" value="@Model.DoctorID" asp-items="@ViewBag.Doctors">
+                            <option value="">Select Doctor</option>
+                        </select>
+                        <span asp-validation-for="DoctorID" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary btn-block" />
+                <a asp-action="ListPatientFile" class="btn btn-outline-primary btn-block">Back to List</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DataAccesslayer.Models.View_Models.Doctor.VMPatientFile>
+
+    @{
+          ViewData["Title"] = "Patient File List";
+    }
+<h1 class="display-5 text-center bold">Patient File List</h1>
+
+<hr />
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">List of All Patients</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Status</th>
+                    <th>ArrivalDate</th>
+                   <th>Action</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>@item.FirstName</th>
+                        <th>@item.LastName</th>
+                        <th>@item.Status</th>
+                        <th>@item.ArrivalDate.ToString("dd MMMM yyyy")</th>
+                        <td>
+                            <a asp-controller="Doctor" - asp-action="PatientDetails" asp-route-id="@item.FileID" class="btn btn-warning"> <i class="bi bi-card-list"></i> Details</a>
+                        </td>
+                        <td>
+                            <a asp-action="UpdatePatientFile" asp-route-id="@item.FileID" class="btn btn-secondary"> <i class="bi bi-pen"></i> Update</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+

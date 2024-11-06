@@ -1,0 +1,214 @@
+﻿@model DataAccesslayer.Models.Dashboards.Administrator.AdministratorDashboardCards
+
+@{
+    ViewData["Title"] = " Admin - Dashboard";
+
+}
+
+<h1 class="display-5 text-center bold">Dashboard Overview</h1>
+<hr />
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.TotalBeds</h3>
+                <p>Total Beds</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.TotalPatients</h3>
+                <p>Total Patients</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.TotalEmployees</h3>
+                <p>Total Employees</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.TotalWards</h3>
+                <p>Total Wards</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- ./col -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-danger">
+            <div class="card-header">
+                <h3 class="card-title">Pie Chart</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="myChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <div class="col-md-6">
+        <div class="card card-danger">
+            <div class="card-header">
+                <h3 class="card-title">Line Chart</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="myChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+
+<!-- ./col -->
+</div>
+<!-- /.row -->
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Active Employees</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.EmployeeList)
+                {
+                    <tr>
+                        <th>@item.FirstName</th>
+                        <th>@item.LastName</th>
+                        <th>@item.PhoneNumbers</th>
+                        <th>@item.Email</th>
+                        <td>
+                            <a asp-action="ViewEmployee" asp-route-id="@item.UserID" class="btn btn-warning"> <i class="fa fa-file"></i> Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // First chart (Pie chart)
+    const ctx1 = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'pie',  // Pie chart type
+        data: {
+            labels: ['Male', 'Female', 'Other'],
+            datasets: [{
+                label: 'Active Employees By Gender',
+                data: [@Model.TotalMaleEmployees, @Model.TotalFemaleEmployees, @Model.TotalOtherEmployees],
+                borderWidth: 1,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',   // Color for 'Male'
+                    'rgba(54, 162, 235, 0.7)',   // Color for 'Female'
+                    'rgba(255, 206, 86, 0.7)'    // Color for 'Other'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',     // Border for 'Male'
+                    'rgba(54, 162, 235, 1)',     // Border for 'Female'
+                    'rgba(255, 206, 86, 1)'      // Border for 'Other'
+                ]
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'top',  // Adjust the position of the legend
+                }
+            }
+        }
+    });
+
+    // Second chart (Line chart)
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    new Chart(ctx2, {
+        type: 'line',  // Line chart type
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [{
+                label: 'Visits per month',
+                data: [10, 50, 30, 80, 60, 90,0,0,0,0,0,70],
+                borderWidth: 1,
+                borderColor: 'rgba(75, 192, 192, 1)',  // Line color
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color
+                fill: true  // Fill the area under the line
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        display: false  // Hide grid lines on y-axis
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false  // Hide grid lines on x-axis
+                    }
+                }
+            }
+        }
+    });
+</script>

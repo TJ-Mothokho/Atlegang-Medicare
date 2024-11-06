@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using System.Collections
+
+
+@{
+    var isLoggedIn = HttpContextAccessor.HttpContext.Session.GetInt32("UserID").HasValue;
+    var roleID = HttpContextAccessor.HttpContext.Session.GetInt32("RoleID");
+    var userName = HttpContextAccessor.HttpContext.Session.GetString("FirstName") + " " + HttpContextAccessor.HttpContext.Session.GetString("LastName");
+
+    var roleNames = new Hashtable
+        {
+            { 1, "Administrator" },
+            { 2, "Doctor" },
+            { 3, "Ward Admin" },
+            { 4, "Consumable Manager"},
+            { 5, "Script Manager"},
+            { 6, "Nurse"},
+            { 7, "Nurse Sister"}
+        };
+
+    var roleName = roleID.HasValue && roleNames.ContainsKey(roleID.Value) ? roleNames[roleID.Value] : "Patient";
+}
+
+<div class="top-right-corner" style="margin-right:55px">
+    @if (isLoggedIn)
+    {
+        <div>
+            <div class="nav-item dropdown">
+                <a href="#" class="d-flex align-items-center text-dark text-decoration-none " data-bs-toggle="dropdown" aria-expanded="true">
+                    <div><img src="~/Assets/dist/img/avatar5.png" alt="" width="32" height="32" class="rounded-circle custom-margin"></div>
+                    <div class="ms-2 text-end">
+                        <span class="dropdown-toggle"><strong>@userName</strong></span>
+                        <br />
+                        <span>@roleName</span>
+                    </div>
+                </a>
+
+                <ul class="dropdown-menu  text-small shadow">
+                    <li><a class="dropdown-item" href="www.project.com">Contact Admin</a></li>
+                    <li><a class="dropdown-item" href="www.settings.com">Settings</a></li>
+                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>

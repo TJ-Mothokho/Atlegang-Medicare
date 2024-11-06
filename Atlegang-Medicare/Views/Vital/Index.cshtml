@@ -1,0 +1,418 @@
+﻿@model IEnumerable<DataAccesslayer.Models.Domains.Nurse_and_Nursing_Sister.Vital>;
+
+
+<h2>Vital Signs</h2>
+<hr />
+
+
+<form>
+    <div class="dropdown-container">
+        <label for="heartRateSearch">Heart Rate (bpm):</label>
+        <input type="text" id="heartRateSearch" placeholder="Enter Heart Rate" class="search-input">
+        <select id="heartRate" class="hidden-select">
+            @foreach (var option in ViewBag.HeartRateOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+        <div class="options-container" id="options-heartRate">
+            @foreach (var option in ViewBag.HeartRateOptions)
+            {
+                <div class="option" data-value="@option">@option</div>
+            }
+        </div>
+    </div>
+
+    <div class="dropdown-container">
+        <label for="bloodPressureSearch">Blood Pressure (Systolic/Diastolic):</label>
+        <input type="text" id="bloodPressureSearch" placeholder="Enter Blood Pressure" class="search-input">
+        <select id="bloodPressure" class="hidden-select">
+            @foreach (var option in ViewBag.BloodPressureOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+        <div class="options-container" id="options-bloodPressure">
+            @foreach (var option in ViewBag.BloodPressureOptions)
+            {
+                <div class="option" data-value="@option">@option</div>
+            }
+        </div>
+    </div>
+
+    <div class="dropdown-container">
+        <label for="temperatureSearch">Temperature (°C):</label>
+        <input type="text" id="temperatureSearch" placeholder="Enter Temperature" class="search-input">
+        <select id="temperature" class="hidden-select">
+            @foreach (var option in ViewBag.TemperatureOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+
+        <div class="options-container" id="options-temperature">
+            @foreach (var option in ViewBag.TemperatureOptions)
+            {
+                <div class="option" data-value="@option">@option</div>
+            }
+        </div>
+    </div>
+
+    <div class="dropdown-container">
+        <label for="respiratoryRateSearch">Respiratory Rate:</label>
+        <input type="text" id="respiratoryRateSearch" placeholder="Enter Respiratory Rate" class="search-input">
+        <select id="respiratoryRate" class="hidden-select">
+            @foreach (var option in ViewBag.RespiratoryRateOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+        <div class="options-container" id="options-respiratoryRate">
+            @foreach (var option in ViewBag.RespiratoryRateOptions)
+            {
+                <div class="option" data-value="@option">@option</div>
+            }
+        </div>
+    </div>
+
+    <button type="submit">Add</button>
+</form>
+
+<style>
+    .dropdown-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        width: 250px;
+        height: 45px;
+        font-size: 18px;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin-left: 10px;
+    }
+
+    .options-container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 250px;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #fff;
+        z-index: 1000;
+        display: none;
+    }
+
+    .option {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+        .option:hover {
+            background: #f0f0f0;
+        }
+
+    .hidden-select {
+        display: none;
+    }
+</style>
+
+<script>
+    function setupSearchableDropdown(searchId, optionsContainerId, selectId) {
+        const searchInput = document.getElementById(searchId);
+        const optionsContainer = document.getElementById(optionsContainerId);
+        const selectElement = document.getElementById(selectId);
+        const options = Array.from(selectElement.options).map(option => option.text);
+        const noResultElement = optionsContainer.querySelector('.no-result');
+
+        // Create option elements and add to the container
+        options.forEach(option => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'option';
+            optionElement.textContent = option;
+            optionElement.dataset.value = option;
+
+            optionElement.addEventListener('click', () => {
+                searchInput.value = option;
+                selectElement.value = option;
+                optionsContainer.style.display = 'none';
+            });
+
+            optionsContainer.appendChild(optionElement);
+        });
+
+        // Show options container on focus
+        searchInput.addEventListener('focus', () => {
+            optionsContainer.style.display = 'block';
+        });
+
+        // Hide options container on blur
+        searchInput.addEventListener('blur', () => {
+            setTimeout(() => {
+                optionsContainer.style.display = 'none';
+            }, 200);
+        });
+
+        // Filter options based on search input
+        searchInput.addEventListener('input', () => {
+            const filter = searchInput.value.toUpperCase();
+            const optionElements = optionsContainer.getElementsByClassName('option');
+
+            let hasResults = false;
+
+            // Hide all options first
+            Array.from(optionElements).forEach(option => {
+                const text = option.textContent || option.innerText;
+                if (text.toUpperCase() === filter) {
+                    option.style.display = 'Not Found';
+                    hasResults = true;
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+
+            // Show 'Value not found' message if no options match
+            noResultElement.style.display = hasResults ? 'none' : 'Not Found';
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setupSearchableDropdown('heartRateSearch', 'options-heartRate', 'heartRate');
+        setupSearchableDropdown('bloodPressureSearch', 'options-bloodPressure', 'bloodPressure');
+        setupSearchableDropdown('temperatureSearch', 'options-temperature', 'temperature');
+        setupSearchableDropdown('respiratoryRateSearch', 'options-respiratoryRate', 'respiratoryRate');
+    });
+</script>@*
+<form>
+    <div>
+        <label for="heartRate">Heart Rate(bpm)></label>
+        <select id="heartRate" style="width: 250px; height: 45px; font-size: 18px;">
+            @foreach (var option in ViewBag.HeartRateOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label for="bloodPressure">Blood Pressure (Systolic/Diastolic):</label>
+        <select id="bloodPressure" style="width: 250px; height: 45px; font-size: 18px;">
+            @foreach (var option in ViewBag.BloodPressureOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label for="temperature">Temperature (°C):</label>
+        <select id="temperature" style="width: 250px; height: 45px; font-size: 18px;">
+            @foreach (var option in ViewBag.TemperatureOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label for="respiratoryRate">Respiratory Rate:</label>
+        <select id="respiratoryRate" style="width: 250px; height: 45px; font-size: 18px;" >
+            @foreach (var option in ViewBag.RespiratoryRateOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit">Add</button>
+@* @* </form>
+ 
+
+<form>
+    <div class="dropdown-container">
+        <label for="heartRateSearch">Heart Rate (bpm):</label>
+        <input type="text" id="heartRateSearch" placeholder="Search for an option" class="search-input">
+        <select id="heartRate" class="hidden-select">
+            @foreach (var option in ViewBag.HeartRateOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+        <div class="options-container" id="options-heartRate">
+            @foreach (var option in ViewBag.HeartRateOptions)
+            {
+                <div class="option" data-value="@option">@option</div>
+            }
+        </div>
+    </div>
+
+    <div class="dropdown-container">
+        <label for="bloodPressureSearch">Blood Pressure (Systolic/Diastolic):</label>
+        <input type="text" id="bloodPressureSearch" placeholder="Search for an option" class="search-input">
+        <select id="bloodPressure" class="hidden-select">
+            @foreach (var option in ViewBag.BloodPressureOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+        <div class="options-container" id="options-bloodPressure">
+            @foreach (var option in ViewBag.BloodPressureOptions)
+            {
+                <div class="option" data-value="@option">@option</div>
+            }
+        </div>
+    </div>
+
+    <div class="dropdown-container">
+        <label for="temperatureSearch">Temperature (°C):</label>
+        <input type="text" id="temperatureSearch" placeholder="Search for an option" class="search-input">
+        <select id="temperature" class="hidden-select">
+            @foreach (var option in ViewBag.TemperatureOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+        <div class="options-container" id="options-temperature">
+            @foreach (var option in ViewBag.TemperatureOptions)
+            {
+                <div class="option" data-value="@option">@option</div>
+            }
+        </div>
+    </div>
+
+    <div class="dropdown-container">
+        <label for="respiratoryRateSearch">Respiratory Rate:</label>
+        <input type="text" id="respiratoryRateSearch" placeholder="Search for an option" class="search-input">
+        <select id="respiratoryRate" class="hidden-select">
+            @foreach (var option in ViewBag.RespiratoryRateOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+        <div class="options-container" id="options-respiratoryRate">
+            @foreach (var option in ViewBag.RespiratoryRateOptions)
+            {
+                <div class="option" data-value="@option">@option</div>
+            }
+        </div>
+    </div>
+
+    <button type="submit">Add</button>
+</form>
+
+<style>
+    .dropdown-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        width: 250px;
+        height: 45px;
+        font-size: 18px;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin-left: 10px;
+    }
+
+    .options-container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 250px;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #fff;
+        z-index: 1000;
+        display: none;
+    }
+
+    .option {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+        .option:hover {
+            background: #f0f0f0;
+        }
+
+    .hidden-select {
+        display: none;
+    }
+</style>
+<script>
+    function setupSearchableDropdown(searchId, optionsContainerId, selectId) {
+        const searchInput = document.getElementById(searchId);
+        const optionsContainer = document.getElementById(optionsContainerId);
+        const selectElement = document.getElementById(selectId);
+        const options = Array.from(selectElement.options).map(option => option.text);
+
+        options.forEach(option => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'option';
+          optionElement.textContent = option;
+            optionElement.dataset.value = option;
+
+            optionElement.addEventListener('click', () => {
+                searchInput.value = option;
+                selectElement.value = option;
+                optionsContainer.style.display = 'none';
+            });
+
+            optionsContainer.appendChild(optionElement);
+        });
+
+        searchInput.addEventListener('focus', () => {
+            optionsContainer.style.display = 'block';
+        });
+
+        searchInput.addEventListener('blur', () => {
+            setTimeout(() => {
+                optionsContainer.style.display = 'none';
+            }, 200);
+        });
+
+        searchInput.addEventListener('input', () => {
+            const filter = searchInput.value.toUpperCase();
+            const optionElements = optionsContainer.getElementsByClassName('option');
+
+            Array.from(optionElements).forEach(option => {
+                const text = option.textContent || option.innerText;
+                option.style.display = text.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setupSearchableDropdown('heartRateSearch', 'options-heartRate', 'heartRate');
+        setupSearchableDropdown('bloodPressureSearch', 'options-bloodPressure', 'bloodPressure');
+        setupSearchableDropdown('temperatureSearch', 'options-temperature', 'temperature');
+        setupSearchableDropdown('respiratoryRateSearch', 'options-respiratoryRate', 'respiratoryRate');
+    });
+</script>
+@* 
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Select2 JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $('#heartRate, #bloodPressure, #temperature, #respiratoryRate').select2({
+        placeholder: 'Select an option',
+        allowClear: true
+    });
+</script> *@

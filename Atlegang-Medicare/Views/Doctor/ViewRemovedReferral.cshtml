@@ -1,0 +1,93 @@
+﻿@model dynamic;
+@{
+    ViewData["Title"] = "Patient Details";
+}
+
+<h1 class="display-5 text-center bold">Patient Details</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">User Identity</label>
+            <div class="col-sm-8">
+                <input value=" @Model.UserID" class="form-control-plaintext" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">First Name</label>
+            <div class="col-sm-8">
+                <input value="@Model.FirstName" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Last Name</label>
+            <div class="col-sm-8">
+                <input value="@Model.LastName" class="form-control" readonly />
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Identity Number</label>
+            <div class="col-sm-8">
+                <input value="@Model.IDNumber" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Date Of Birth</label>
+            <div class="col-sm-8">
+                <input value="@Model.DateOfBirth.ToString("MM-dd-yyyy")" class="form-control" readonly />
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Gender</label>
+            <div class="col-sm-8">
+                <input value="@Model.Gender" class="form-control" readonly />
+            </div>
+
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Phone Numbers</label>
+            <div class="col-sm-8">
+                <input value="@Model.PhoneNumbers" class="form-control" readonly />
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Email Address</label>
+            <div class="col-sm-8">
+                <input value="@Model.Email" class="form-control" readonly />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label"> Suburb Name</label>
+            <div class="col-sm-8">
+                <input value="@Model.SuburbName" class="form-control" readonly />
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Residential Address</label>
+            <div class="col-sm-8">
+                <input value="@Model.ResidentialAddress" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="col-sm-4 d-grid">
+            <a class="btn btn-outline-info" asp-action="ListRemovedReferral"><i class="bi bi-arrow-left"></i> Back to List</a>
+        </div>
+
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

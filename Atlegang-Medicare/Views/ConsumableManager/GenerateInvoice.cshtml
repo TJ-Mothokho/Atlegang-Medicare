@@ -1,0 +1,98 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .invoice-box {
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+        }
+
+        .heading {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        .total {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <h1>Invoice</h1>
+        <p><strong>Invoice No:</strong> @Model.InvoiceNo</p>
+        <p><strong>Date:</strong> @Model.InvoiceDate.ToString("dd MMM yyyy")</p>
+
+        <h2>Billed To:</h2>
+        <p>@Model.CustomerName</p>
+        <p>@Model.CustomerAddress</p>
+        <p>@Model.CustomerPhone</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.ItemName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.UnitPrice.ToString("C")</td>
+                        <td>@item.Total.ToString("C")</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="3" class="total">Subtotal</td>
+                    <td>@Model.Subtotal.ToString("C")</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="total">Tax (@Model.TaxPercentage%)</td>
+                    <td>@((Model.Subtotal * Model.TaxPercentage / 100).ToString("C"))</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="total">Total</td>
+                    <td>@Model.Total.ToString("C")</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Payment Information</h3>
+        <p>Briard Bank</p>
+        <p>Account Name: Samira Hadid</p>
+        <p>Account No.: 123-456-7890</p>
+        <p>Pay by: 5 July 2025</p>
+    </div>
+</body>
+</html>

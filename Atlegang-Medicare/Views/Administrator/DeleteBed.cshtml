@@ -1,0 +1,61 @@
+﻿@model DataAccesslayer.Models.Domains.Administrator.Bed
+@{
+    ViewData["Title"] = "Delete Bed";
+}
+
+<h1 class="display-5 text-center bold">Remove Bed</h1>
+
+<hr />
+@if (TempData["SuccessRemoved"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["SuccessRemoved"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorBed1"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorBed1"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <form asp-action="DeleteBed" class="mt-4 " method="post">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Bed Identity</label>
+                <div class="col-sm-8">
+                    <input asp-for="BedID" class="form-control-plaintext" readonly />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Room Number</label>
+                <div class="col-sm-8">
+                    <input asp-for="RoomID" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Status</label>
+                <div class="col-sm-8">
+                    <input asp-for="Status" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-trash"></i> Continue</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-danger" asp-action="ListBeds"><i class="bi bi-x-lg"></i> Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

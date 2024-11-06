@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "View Scripts";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["Success"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorAlert"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorAlert"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container">
+    <div class="heading">
+        <h1 class="display-2 text-center">View Scripts</h1>
+        <hr />
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <table id="table1" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Doctor
+                        </th>
+                        <th>
+                            Patient
+                        </th>
+                        <th>
+                            Date Added
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Scripts)
+                    {
+                        if (item.Manager == null)
+                        {
+                            item.Manager = "Not Approved Yet";
+                        }
+
+                        <tr>
+                            <td>
+                                @item.Doctor
+                            </td>
+                            <td>
+                                @item.Patient
+                            </td>
+                            <td>
+                                @item.ScriptDate.ToString("dd MMM yyyy, hh:mm")
+                            </td>
+                            <td>
+                                @item.Status
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="@Url.Action("ScriptDetails", "ScriptManager", new { scriptID = item.ScriptID })">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

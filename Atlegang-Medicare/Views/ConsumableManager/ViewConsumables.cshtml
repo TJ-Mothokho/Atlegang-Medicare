@@ -1,0 +1,156 @@
+﻿@model DataAccesslayer.Models.Domains.Consumable_and_Script_Manager.Consumable;
+
+
+@{
+    ViewData["Title"] = "ViewConsumables";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["Success"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorAlert"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorAlert"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container">
+    <h1 class="display-5 text-center bold">Manage Consumables</h1>
+    <hr />
+
+
+    <div class="d-flex justify-content-end d-grid gap-1">
+        <p class="d-inline-flex gap-1">
+            <a class="btn btn-primary" asp-controller="ConsumableManager" asp-action="AddConsumable"><i class="bi bi-plus-circle"></i> Add Consumable</a>
+        </p>
+    </div>
+
+    <form asp-action="ViewConsumables" method="post" id="consumableForm">
+        <div class="form-group">
+            <label class="form-label" asp-for="ConsumableID">Consumable</label>
+            <select asp-for="ConsumableID" class="form-select col-4" asp-items="ViewBag.ConsumableDropDown" id="consumableSelect">
+                <option value="">Select Consumable</option>
+            </select>
+            <span asp-validation-for="ConsumableID" class="text-danger" id="consumableError"></span>
+        </div>
+
+        <div>
+            <button class="btn btn-primary" type="submit" id="searchButton" disabled><i class="bi bi-search"></i> Search</button>
+            <button class="btn btn-warning" type="button" id="resetButton" onclick="resetFilter()"><i class="bi bi-x-lg"></i> Reset</button>
+        </div>
+    </form>
+</div>
+
+    <div class="card">
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table id="table1" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuantityOnHand)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cost)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OnHandThreshold)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SupplierID)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.ConsumablesTable)
+                    {
+                        <tr>
+                            <td>@item.ConsumableName</td>
+
+                            <td>@item.QuantityOnHand</td>
+
+                            <td>R @item.Cost</td>
+
+                            <td>@item.OnHandThreshold</td>
+
+                            <td><a asp-controller="Supplier" asp-action="Detail" asp-route-id="@item.ConsumableID">@item.SupplierName</a></td>
+
+                            <td>
+                                <a class="btn btn-warning" href="@Url.Action("UpdateConsumable", "ConsumableManager", new { consumableID = item.ConsumableID })"><i class="bi bi-pencil"></i> Edit</a> |
+                            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-consumable-id="@item.ConsumableID" data-consumable-name="@item.ConsumableName"><i class="bi bi-trash3"></i> Delete</a>
+                        </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Confirm Deletion</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <span id="consumableName"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form id="deleteForm" method="post" action="@Url.Action("DeleteConsumable", "ConsumableManager")">
+                    <input type="hidden" name="consumableID" id="consumableID" value="" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    function resetFilter() {
+        document.getElementById('consumableSelect').value = "";
+        document.getElementById('searchButton').disabled = true;
+    }
+ </script>
+
+
+
+
+<script src="~/js/ConsumableManager.js">
+    
+</script>
+
+
+<script>
+    // Capture the consumable ID and name when the delete button is clicked
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteButtons = document.querySelectorAll('a[data-bs-target="#deleteModal"]');
+        deleteButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var consumableId = this.getAttribute('data-consumable-id');
+                var consumableName = this.getAttribute('data-consumable-name');
+
+                document.getElementById('consumableID').value = consumableId;
+                document.getElementById('consumableName').textContent = consumableName; // Ensure this is correct
+            });
+        });
+    });
+</script>

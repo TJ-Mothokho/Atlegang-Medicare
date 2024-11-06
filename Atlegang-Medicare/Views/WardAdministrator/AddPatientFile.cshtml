@@ -1,0 +1,188 @@
+﻿@model DataAccesslayer.Models.Domains.Ward_Administrator.PatientFile
+
+@{
+    ViewData["Title"] = "Admit Patient";
+}
+
+<hr />
+@if (TempData["TempSuccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["TempSuccess"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["TempError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["TempError"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<h1 class="display-5 text-center bold">Admit Patient Form</h1>
+<hr/>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddPatientFile" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input class="form-control" asp-for="PatientID" value="@ViewBag.PatientID" hidden />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Patient Name</label>
+                        <input class="form-control" value="@ViewBag.ReferredPatient" disabled />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="BedID" class="control-label"></label>
+                        <select asp-for="BedID" class="form-control" asp-items="@ViewBag.Beds">
+                            <option value="">Select Bed</option>
+                        </select>
+                        <span asp-validation-for="BedID" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DoctorID" class="control-label"></label>
+                        <select asp-for="DoctorID" class="form-control" asp-items="@ViewBag.Doctors">
+                            <option value="">Select Doctor</option>
+                        </select>
+                        <span asp-validation-for="DoctorID" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!--Allergies-->
+                <div class="form-group">
+                    <div class="dropdown">
+                        <label class="form-label col-2">Allergies:</label>
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="allergiesDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            No Allergies (Default)
+                        </button>
+                        <ul class="dropdown-menu p-3" aria-labelledby="allergiesDropdownButton">
+                            @foreach (var option in ViewBag.Allergies)
+                            {
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="@option.Value" name="selectedAllergies" id="allergy@option.Value">
+                                        <label class="form-check-label" for="allergy@option.Value">
+                                            @option.Text
+                                        </label>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!--End of Allergies-->
+                <!--Chronic Conditions-->
+                <div class="form-group">
+                    <div class="dropdown">
+                        <label class="form-label col-2">Chronic Conditions:</label>
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="chronicDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            No Chronic Conditions (Default)
+                        </button>
+                        <ul class="dropdown-menu p-3" aria-labelledby="chronicDropdownButton">
+                            @foreach (var option in ViewBag.ChronicConditions)
+                            {
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="@option.Value" name="selectedChronics" id="chronic@option.Value">
+                                        <label class="form-check-label" for="chronic@option.Value">
+                                            @option.Text
+                                        </label>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!--End of Chronic Conditions-->
+                <!--Medication-->
+                <div class="form-group">
+                    <div class="dropdown">
+                        <label class="form-label col-2">Medication:</label>
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="medicationDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            No Medication (Default)
+                        </button>
+                        <ul class="dropdown-menu p-3" aria-labelledby="medicationDropdownButton">
+                            @foreach (var option in ViewBag.Medication)
+                            {
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="@option.Value" name="selectedMedication" id="medication@option.Value">
+                                        <label class="form-check-label" for="medication@option.Value">
+                                            @option.Text
+                                        </label>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!--End of Medication-->
+
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Admit" class="btn btn-primary btn-block" />
+                <a asp-action="Referrals" class="btn btn-outline-primary btn-block">Back to List</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Allergies
+        const allergiesDropdownButton = document.getElementById('allergiesDropdownButton');
+        const allergiesCheckboxes = document.querySelectorAll('input[name="selectedAllergies"]');
+
+        // Chronic Conditions
+        const chronicDropdownButton = document.getElementById('chronicDropdownButton');
+        const chronicCheckboxes = document.querySelectorAll('input[name="selectedChronics"]');
+
+        // Medication
+        const medicationDropdownButton = document.getElementById('medicationDropdownButton');
+        const medicationCheckboxes = document.querySelectorAll('input[name="selectedMedication"]');
+
+        // Event Listeners for Allergies
+        allergiesCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                updateSelectedCount(allergiesDropdownButton, allergiesCheckboxes, "Allergy");
+            });
+        });
+
+        // Event Listeners for Chronic Conditions
+        chronicCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                updateSelectedCount(chronicDropdownButton, chronicCheckboxes, "Chronic Condition");
+            });
+        });
+
+        // Event Listeners for Medication
+        medicationCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                updateSelectedCount(medicationDropdownButton, medicationCheckboxes, "Medication");
+            });
+        });
+
+        // Function to update selected count for each dropdown
+        function updateSelectedCount(button, checkboxes, singularLabel) {
+            const selectedCount = document.querySelectorAll(`input[name="${checkboxes[0].name}"]:checked`).length;
+            if (selectedCount === 0) {
+                button.textContent = `No ${singularLabel}s (Default)`;
+            } else if (selectedCount === 1) {
+                button.textContent = `${selectedCount} ${singularLabel}`;
+            } else {
+                button.textContent = `${selectedCount} ${singularLabel}s`;
+            }
+        }
+    });
+</script>
+
+
+

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<DataAccesslayer.Models.View_Models.Doctor.VMNote>
+
+
+@{
+    ViewBag.Title = "Patient Notes List";
+}
+
+<h1 class="display-5 text-center bold">Patient Notes List</h1>
+<hr />
+
+<div class="d-flex justify-content-end">
+    <a asp-action="AddNote" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Note</a>
+</div>
+<br />
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Recently Added Notes</h3>
+    </div>
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Note Identity Number</th>
+                    <th>File Identity Number</th>
+                    <th>Patient Name</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                    </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.NoteID</td>
+                        <td>@item.FileID</td>
+                        <td>@item.PatientName</td>
+                        <td>@item.Date.ToString("dd MMMM yyyy")</td>
+                        <td>
+                            <a asp-action="PatientNoteDetails" asp-route-id="@item.NoteID" class="btn btn-warning"><i class="bi bi-card-list"></i> Details</a>
+                        </td>
+                        <td>
+                            <a asp-action="UpdateNote" asp-route-id="@item.NoteID" class="btn btn-primary"> <i class="bi bi-pen"></i> Update</a>
+                        </td>
+                        <td>
+                            <a asp-action="DeletePatientNote" asp-route-id="@item.NoteID" class="btn btn-danger"> <i class="bi bi-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<br />
+
+

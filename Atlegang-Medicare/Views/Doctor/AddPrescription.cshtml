@@ -1,0 +1,81 @@
+﻿@model DataAccesslayer.Models.Domains.Consumable_and_Script_Manager.ScriptDetail
+
+@{
+    ViewData["title"] = "Add Prescription";
+}
+<h1 class="display-2 text-bold text-center">Prescribe Meds</h1>
+<hr />
+
+    <div class="row">
+        <section class="col-8">
+            <form asp-action="AddToPrescription" method="post">
+                <div class="form-group">
+                <label asp-for="MedicationID" class="form-label"> Medication <span class="text-danger">*</span></label>
+                <select asp-for="MedicationID" asp-items="ViewBag.MedicationDropDown" class="form-select">
+                        <option value="">Select a Medication</option>
+                    </select>
+                    <span asp-validation-for="MedicationID" class="text-danger"></span>
+                </div>
+
+            <div class="form-group">
+                <label for="Dosage">Dosage:</label>
+                <div class="input-group col-5">
+                    <!-- Numeric input for number of times -->
+                    <input type="number" class="form-control"  name="DosageNumber" min="1" value="1">
+
+                    <!-- Text for "time(s) per" -->
+                    <span class="input-group-text">time(s) per</span>
+
+                    <!-- Dropdown for day/week/month -->
+                    <select class="form-control" name="DosagePeriod">
+                        <option value="Day">Day</option>
+                        <option value="Week">Week</option>
+                        <option value="Month">Month</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input value="@ViewBag.FileID" hidden name="fileID" />
+                <a class="btn btn-outline-info" asp-action="ListPatientFiles"><i class="bi bi-arrow-left"></i> Back to List</a>
+                <button class="btn btn-primary" type="submit">Add Prescription</button>
+            </div>
+               
+            </form>
+        </section>
+
+        <aside class="col-4">
+            <div class="border p-2 border-opacity-10">
+
+            @if (ViewBag.PrescriptionItems != null)
+                {
+                foreach (var item in ViewBag.PrescriptionItems)
+                    {
+                        <div>
+                            <p class="text-bold">@item.MedicationName</p>
+                                <p>Dosage: @item.Dosage</p>
+                                <p>Schedule: @item.Schedule</p>
+                            <hr />
+                        </div>
+                    }
+                }
+
+                <div>
+
+                @if (ViewBag.PrescriptionItems != null)
+                    {
+                        <form asp-controller="Doctor" asp-action="Prescribe" method="post">
+                            <input value="@ViewBag.FileID" hidden name="fileID" />
+                            <button class="btn btn-primary">Prescribe</button>
+                        </form>
+                    }
+                    else
+                    {
+                    <button asp-action="Prescribe" class="btn btn-primary" disabled>Prescribe</button>
+                    }
+                </div>
+            </div>
+        </aside>
+    </div>
+
+

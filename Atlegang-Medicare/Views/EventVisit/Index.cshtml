@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Calendar";
+}
+
+<h1 class="display-5 text-center bold">Scheduled Appointments</h1>
+<hr />
+
+<style>
+
+    #calendar {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+</style>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Calendar</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+
+<script src='~/fullcalendar/dist/index.global.js'></script>
+<script>
+    var url = '/api/ScheduleEvent';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            },
+            events: url
+        });
+        calendar.render();
+    });
+
+
+</script>
+

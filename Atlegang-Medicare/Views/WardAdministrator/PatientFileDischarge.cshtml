@@ -1,0 +1,89 @@
+﻿@model DataAccesslayer.Models.View_Models.Doctor.VMPatientFile
+@using System
+
+@{
+    ViewData["Title"] = "Discharge Patient";
+}
+<h1 class="display-5 text-center bold">Discharge Patient</h1>
+<hr />
+@if (TempData["TempSuccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["TempSuccess"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["TempError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["TempError"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="row mb-5">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <form asp-action="PatientFileDischarge" class="mt-4 " method="post">
+            <input asp-for="FileID" type="hidden" />
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">User Identity</label>
+                <div class="col-sm-8">
+                    <input asp-for="PatientID" value="@Model.PatientID" class="form-control-plaintext" readonly />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">First Name</label>
+                <div class="col-sm-8">
+                    <input value="@Model.FirstName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Last Name</label>
+                <div class="col-sm-8">
+                    <input value="@Model.LastName" class="form-control" readonly />
+                </div>
+
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Status</label>
+                <div class="col-sm-8">
+                    <input value="@Model.Status" class="form-control" readonly />
+                </div>
+
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Arrival Date</label>
+                <div class="col-sm-8">
+                    <input value="@Model.ArrivalDate.ToString("yyyy-MM-dd") " class="form-control" readonly />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Bed Number</label>
+                <div class="col-sm-8">
+                    <input asp-for="BedID" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label"> Ward</label>
+                <div class="col-sm-8">
+                    <input value="@Model.WardName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i> Confirm</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-danger" asp-action="ListDischargePatient"><i class="bi bi-x-lg"></i> Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

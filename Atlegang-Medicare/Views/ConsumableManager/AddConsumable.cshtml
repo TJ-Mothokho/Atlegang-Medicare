@@ -1,0 +1,93 @@
+﻿@model DataAccesslayer.Models.Domains.Consumable_and_Script_Manager.Consumable
+
+@{
+    ViewData["Title"] = "Add Consumable";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["Success"]</strong>Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData["ErrorAlert"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@TempData["ErrorAlert"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="container">
+    <h1 class="display-5 text-center bold">Add Consumable</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="AddConsumable" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" id="Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="QuantityOnHand" class="control-label"></label>
+                        <input asp-for="QuantityOnHand" class="form-control" id="quantity"/>
+                        <span asp-validation-for="QuantityOnHand" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Cost" class="control-label"></label>
+                        <input asp-for="Cost" class="form-control" id="cost"/>
+                        <span asp-validation-for="Cost" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-label" asp-for="SupplierID"></label>
+                        <select class="form-select" asp-for="SupplierID" asp-items="@ViewBag.SupplierList" id="supplierSelect">
+                            <option value="">Select Supplier</option>
+                        </select>
+                        <span asp-validation-for="SupplierID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="OnHandThreshold" class="control-label"></label>
+                        <input asp-for="OnHandThreshold" class="form-control" id="OnHandThreshold"/>
+                        <span asp-validation-for="OnHandThreshold" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="WardThreshold" class="control-label"></label>
+                        <input asp-for="WardThreshold" class="form-control" id="wardThreshold"/>
+                        <span asp-validation-for="WardThreshold" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <Button type="submit" class="btn btn-primary" id="submitButton"><i class="bi bi-plus-square"></i> Add Consumable</Button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a class="btn btn-primary" asp-action="ViewConsumables"><i class="bi bi-arrow-left-circle"></i> Back to List</a>
+    </div>
+
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+<script src="~/js/ConsumableManager.js">
+</script>
+
+<script>
+        // JavaScript to handle redirection when the close button is clicked
+    document.getElementById('close-alert-btn').addEventListener('click', function () {
+        window.location.href = '@Url.Action("ViewConsumables", "ConsumableManager")';
+    });
+</script>

@@ -1,0 +1,51 @@
+﻿
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div class="container">
+    <div class="alert-heading">
+        <h1 class="display-2 text-center bold">Order Details</h1>
+        <hr />
+    </div>
+
+
+    @foreach (var item in ViewBag.OrderDetails)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                Consumable
+            </dt>
+            <dd class="col-sm-10">
+                @item.Name
+            </dd>
+            <dt class="col-sm-2">
+                Quantity
+                </dt>
+            <dd class="col-sm-10">
+                    @item.Quantity
+            </dd>
+            
+            @if(item.Message != null || item.Message != " " || item.Message != "")
+            {
+                <dt class="col-sm-2">
+                    Message:
+                </dt>
+                <dd class="col-sm-10">
+                    @item.Message
+                </dd>
+            }
+        </dl>
+
+
+        <hr />
+    }
+
+    <br />
+    <div>
+        <a class="btn btn-warning justify-content-end" asp-action="OrderHistory">Back to List</a>
+    </div>
+
+</div>
+

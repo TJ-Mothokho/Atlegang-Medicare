@@ -1,0 +1,97 @@
+﻿@model DataAccesslayer.Models.Domains.Nurse_and_Nursing_Sister.PatientTreatment
+
+@{
+    ViewData["Title"] = "Treat Patient";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@TempData["Success"]</strong> Successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<h1 class="display-5 text-center bold">Treat Patient</h1>
+<hr />
+    <div class="container">
+    <div class="row border p-3">
+        <!--NEEDS EDITS -->
+            <div class="col-md-4">
+            <div class="d-flex flex-column">
+
+                <a asp-action="ListPatientNote" type="button" class="btn btn-info mb-3">View Instructions</a>
+
+
+
+                <a asp-action="AllMedicationsAdministerd" type="button" class="btn btn-info mb-3">View Medications</a>
+
+                <a asp-action="PatientVitalsList" type="button" class="btn btn-info mb-3">View Vitals</a>
+
+
+
+            </div>
+            </div>
+
+            <!-- Right Section with Patient Name and Treatment -->
+            <div class="col-md-8">
+                <form asp-action="AddPatientTreatment" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                    <div class="cart-card border " style="display: flex; width: auto; padding: 10px; align-items: flex-start;">
+                        <div class="cart-card-body" style="flex-grow: 1;">
+                    <!-- Patient File ID (Patient Name) -->
+                    <div class="form-group">
+                            <input value="@ViewBag.FileID" name="fileID" hidden/>
+                        </div>
+
+                
+
+
+
+                    <!-- Treatment Dropdown -->
+                    <div class="form-group">
+                        <label asp-for="TreatmentID" class="control-label">
+                            Treatment List <span class="text-danger">*</span>
+                        </label>
+                        <select asp-for="TreatmentID" class="form-control" asp-items="ViewBag.PatientTreatment">
+                            <option>Select Treatment...</option>
+                        </select>
+                        <span asp-validation-for="TreatmentID" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit and Reset Buttons -->
+                    <div class="form-group text-right">
+                        <input type="submit" value="Save" class="btn btn-primary mr-2" />
+                        <input type="reset" value="Reset" class="btn btn-primary" />
+                    </div>
+                    </div>
+                    </div>
+                    
+
+                
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+
+<br />
+<a asp-action="TreatmentList" class="btn btn-outline-primary">Back to List</a>
+
+
+
+
+
+<script src="~/js/site.js"></script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+

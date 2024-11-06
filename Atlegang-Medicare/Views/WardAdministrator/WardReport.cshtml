@@ -1,0 +1,26 @@
+﻿@* @model DataAccesslayer.Models.Domains.Ward_Administrator.PatientFile
+@{
+    ViewData["Tittle"] = "Detailed Ward Admin Report";
+}
+<h1>Ward Administrator Report</h1>
+<hr/>
+<h6>Admitted Patients today: @Model.TotalAdmittedPatients</h6>
+<h6>Discharged Patients today: @Model.TotalDischargedPatients</h6>
+@* <table id="table1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>DATE</th>
+                    <th>ArrivalDate</th>
+                    <th>DischargeDate</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>@item.[Date]</th>
+                        <th>@item.AdmittedPatients</th>
+                        <th>@item.DischargedPatients</th>
+                        
+                      
+                    </tr>
+                } @**@

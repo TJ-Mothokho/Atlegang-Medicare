@@ -1,0 +1,87 @@
+﻿@model IEnumerable<DataAccesslayer.Models.View_Models.Nurse.PatientVitalsDetailsViewModel>
+
+
+
+@{
+    // Get the first record from the model to display File ID, Patient Name, and Nurse Name in textboxes
+    var firstRecord = Model.FirstOrDefault();
+}
+
+<h1 class="display-5 text-center bold">
+   All Recorded Vitals<h1>
+        <hr />
+
+@if (firstRecord != null)
+{
+
+  
+       
+    <div class="form-group">
+        <input type="text" id="fileId" class="form-control" value="@firstRecord.FileID" hidden />
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="patientVitalsDetailsId" class="form-control" value="@firstRecord.PatientVitalsDetailsID" hidden />
+    </div>
+
+    <div class="form-group">
+        <label for="patientName">Patient Name:</label>
+        <input type="text" id="patientName" class="form-control" value="@firstRecord.PatientName" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="nurseName">Recorded By:</label>
+        <input type="text" id="nurseName" class="form-control" value="Nurse - @firstRecord.NurseName" readonly />
+    </div>
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Patients With Recorded Vitals</h3>
+    </div>
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Vital Description</th>
+                <th>Vital Value</th>
+                <th>Date Recorded</th>
+            </tr>
+        </thead>
+        <tbody>
+           @{
+                int counter = 1; 
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@counter</td> 
+                    <td>@item.Description</td>
+                    <td>@item.VitalValue</td>
+                    <td>@item.DateRecorded.ToString("dd MMMM yyyy")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@item.DateRecorded.ToString("hh:mm tt")</td>
+                </tr>
+                {
+                    counter++; // Increment the counter
+                }
+            }
+        </tbody>
+    </table>
+    </div>
+    </div>
+}
+else
+{
+    <p>No records found.</p>
+}
+<br />
+
+<div>
+    <a href="@Url.Action("PatientList", "Nurse", new { })" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i>Back To List</a>
+</div>
+
+
+
