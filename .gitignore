@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+/Atlegang-Medicare/appsettings.Development.json
+appsettings.Development.json
